@@ -11,13 +11,7 @@ public class GALSourceViewerConfiguration extends TextSourceViewerConfiguration 
 	@Override
 	public IPresentationReconciler getPresentationReconciler(
 			ISourceViewer sourceViewer) {
-		PresentationReconciler reconciler = new PresentationReconciler();
-		DefaultDamagerRepairer dr = new DefaultDamagerRepairer(
-				new GALCodeScanner());
-		reconciler.setDocumentPartitioning(GALDocumentProvider.GAL_PARTITIONING);
-		reconciler.setDamager(dr, GALDocumentProvider.GAL_CODE);
-		reconciler.setRepairer(dr, GALDocumentProvider.GAL_CODE);
-		return reconciler;
+		return new GALPresentationReconciler();
 	}
 
 	@Override
