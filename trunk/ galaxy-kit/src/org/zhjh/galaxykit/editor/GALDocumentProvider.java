@@ -38,5 +38,4 @@ public class GALDocumentProvider extends FileDocumentProvider {
 		IDocumentPartitioner paritioner = new FastPartitioner(scanner, GAL_CONTENT_TYPES);
 		return paritioner;
 	}
-
 }
