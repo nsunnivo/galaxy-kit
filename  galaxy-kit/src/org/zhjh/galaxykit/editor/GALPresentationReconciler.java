@@ -11,6 +11,7 @@ import org.eclipse.jface.text.rules.NumberRule;
 import org.eclipse.jface.text.rules.SingleLineRule;
 import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.rules.WordRule;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
@@ -114,7 +115,7 @@ public class GALPresentationReconciler extends PresentationReconciler {
 			WordRule keywordRule = new WordRule(
 					new GALWordDetector());
 			IToken keywordToken = new Token(
-					new TextAttribute(cKeyword));
+					new TextAttribute(cKeyword, null, SWT.BOLD));
 			IToken typeToken = new Token(
 					new TextAttribute(cType));
 			IToken numberToken = new Token(
