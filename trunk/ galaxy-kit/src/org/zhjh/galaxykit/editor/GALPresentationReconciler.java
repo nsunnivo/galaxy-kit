@@ -48,7 +48,9 @@ public class GALPresentationReconciler extends PresentationReconciler {
 			"false",
 			"null",
 			"void",
-			"static"
+			"static",
+			"native",
+			"const"
 		};
 		
 		public static final String[] GAL_TYPES = {
