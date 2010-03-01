@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Galaxy_kit
-Bundle-SymbolicName: galaxy_kit; singleton:=true
+Bundle-SymbolicName: galaxykit;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.zhjh.galaxykit.GALPlugin
 Bundle-Vendor: hackwaly
