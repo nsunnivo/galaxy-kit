@@ -923,16 +923,6 @@ public class GALParser implements GALParserConstants {
     finally { jj_save(4, xla); }
   }
 
-  private boolean jj_3R_46() {
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_48()) { jj_scanpos = xsp; break; }
-    }
-    if (jj_3R_49()) return true;
-    return false;
-  }
-
   private boolean jj_3R_39() {
     Token xsp;
     xsp = jj_scanpos;
@@ -1285,6 +1275,16 @@ public class GALParser implements GALParserConstants {
     }
     }
     }
+    return false;
+  }
+
+  private boolean jj_3R_46() {
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_48()) { jj_scanpos = xsp; break; }
+    }
+    if (jj_3R_49()) return true;
     return false;
   }
 
