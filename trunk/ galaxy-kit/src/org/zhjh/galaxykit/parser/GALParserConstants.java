@@ -17,39 +17,51 @@ public interface GALParserConstants {
   /** RegularExpression Id. */
   int WHILE = 8;
   /** RegularExpression Id. */
-  int VOID = 9;
+  int BREAK = 9;
   /** RegularExpression Id. */
-  int BOOL = 10;
+  int CONTINUE = 10;
   /** RegularExpression Id. */
-  int INT = 11;
+  int VOID = 11;
   /** RegularExpression Id. */
-  int FIXED = 12;
+  int BOOL = 12;
   /** RegularExpression Id. */
-  int STRING = 13;
+  int INT = 13;
   /** RegularExpression Id. */
-  int CONST = 14;
+  int FIXED = 14;
   /** RegularExpression Id. */
-  int NATIVE = 15;
+  int STRING = 15;
   /** RegularExpression Id. */
-  int RETURN = 16;
+  int STRUCT = 16;
   /** RegularExpression Id. */
-  int TRUE = 17;
+  int CONST = 17;
   /** RegularExpression Id. */
-  int FALSE = 18;
+  int NATIVE = 18;
   /** RegularExpression Id. */
-  int NULL = 19;
+  int INCLUDE = 19;
   /** RegularExpression Id. */
-  int INTEGER_LITERAL = 20;
+  int RETURN = 20;
   /** RegularExpression Id. */
-  int FLOAT_LITERAL = 21;
+  int TRUE = 21;
   /** RegularExpression Id. */
-  int STRING_LITERAL = 22;
+  int FALSE = 22;
   /** RegularExpression Id. */
-  int IDENTIFIER = 23;
+  int NULL = 23;
   /** RegularExpression Id. */
-  int IDENTIFIER_START = 24;
+  int DIV = 24;
   /** RegularExpression Id. */
-  int IDENTIFIER_PART = 25;
+  int INTEGER_LITERAL = 25;
+  /** RegularExpression Id. */
+  int DECIMAL_INTEGER = 26;
+  /** RegularExpression Id. */
+  int FLOAT_LITERAL = 27;
+  /** RegularExpression Id. */
+  int STRING_LITERAL = 28;
+  /** RegularExpression Id. */
+  int IDENTIFIER = 29;
+  /** RegularExpression Id. */
+  int IDENTIFIER_START = 30;
+  /** RegularExpression Id. */
+  int IDENTIFIER_PART = 31;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -65,31 +77,54 @@ public interface GALParserConstants {
     "\"if\"",
     "\"else\"",
     "\"while\"",
+    "\"break\"",
+    "\"continue\"",
     "\"void\"",
     "\"bool\"",
     "\"int\"",
     "\"fixed\"",
     "\"string\"",
+    "\"struct\"",
     "\"const\"",
     "\"native\"",
+    "\"include\"",
     "\"return\"",
     "\"true\"",
     "\"false\"",
     "\"null\"",
+    "\"/\"",
     "<INTEGER_LITERAL>",
-    "\".\"",
+    "<DECIMAL_INTEGER>",
+    "<FLOAT_LITERAL>",
     "<STRING_LITERAL>",
     "<IDENTIFIER>",
     "<IDENTIFIER_START>",
     "<IDENTIFIER_PART>",
+    "\"=\"",
+    "\";\"",
     "\"{\"",
     "\"}\"",
-    "\"=\"",
+    "\",\"",
     "\"(\"",
     "\")\"",
+    "\"&\"",
+    "\"*\"",
+    "\".\"",
+    "\"->\"",
+    "\"+\"",
+    "\"-\"",
+    "\">\"",
+    "\"<\"",
+    "\">=\"",
+    "\"<=\"",
+    "\"==\"",
+    "\"!=\"",
+    "\"^\"",
+    "\"|\"",
+    "\"&&\"",
+    "\"||\"",
     "\"[\"",
     "\"]\"",
-    "\";\"",
   };
 
 }
