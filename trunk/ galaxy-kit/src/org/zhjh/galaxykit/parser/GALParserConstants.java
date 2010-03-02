@@ -11,33 +11,45 @@ public interface GALParserConstants {
   /** End of File. */
   int EOF = 0;
   /** RegularExpression Id. */
-  int IF = 5;
+  int IF = 6;
   /** RegularExpression Id. */
-  int ELSE = 6;
+  int ELSE = 7;
   /** RegularExpression Id. */
-  int VOID = 7;
+  int WHILE = 8;
   /** RegularExpression Id. */
-  int INT = 8;
-  /** RegularExpression Id. */
-  int CHAR = 9;
+  int VOID = 9;
   /** RegularExpression Id. */
   int BOOL = 10;
   /** RegularExpression Id. */
-  int STRING = 11;
+  int INT = 11;
   /** RegularExpression Id. */
-  int CONST = 12;
+  int FIXED = 12;
   /** RegularExpression Id. */
-  int NATIVE = 13;
+  int STRING = 13;
   /** RegularExpression Id. */
-  int NUMBERIC_LITERAL = 14;
+  int CONST = 14;
   /** RegularExpression Id. */
-  int STRING_LITERAL = 15;
+  int NATIVE = 15;
   /** RegularExpression Id. */
-  int IDENTIFIER = 16;
+  int RETURN = 16;
   /** RegularExpression Id. */
-  int IDENTIFIER_START = 17;
+  int TRUE = 17;
   /** RegularExpression Id. */
-  int IDENTIFIER_PART = 18;
+  int FALSE = 18;
+  /** RegularExpression Id. */
+  int NULL = 19;
+  /** RegularExpression Id. */
+  int INTEGER_LITERAL = 20;
+  /** RegularExpression Id. */
+  int FLOAT_LITERAL = 21;
+  /** RegularExpression Id. */
+  int STRING_LITERAL = 22;
+  /** RegularExpression Id. */
+  int IDENTIFIER = 23;
+  /** RegularExpression Id. */
+  int IDENTIFIER_START = 24;
+  /** RegularExpression Id. */
+  int IDENTIFIER_PART = 25;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -49,22 +61,34 @@ public interface GALParserConstants {
     "\"\\t\"",
     "\"\\r\"",
     "\"\\n\"",
+    "<token of kind 5>",
     "\"if\"",
     "\"else\"",
+    "\"while\"",
     "\"void\"",
-    "\"int\"",
-    "\"char\"",
     "\"bool\"",
+    "\"int\"",
+    "\"fixed\"",
     "\"string\"",
     "\"const\"",
     "\"native\"",
-    "<NUMBERIC_LITERAL>",
+    "\"return\"",
+    "\"true\"",
+    "\"false\"",
+    "\"null\"",
+    "<INTEGER_LITERAL>",
+    "\".\"",
     "<STRING_LITERAL>",
     "<IDENTIFIER>",
     "<IDENTIFIER_START>",
     "<IDENTIFIER_PART>",
     "\"{\"",
     "\"}\"",
+    "\"=\"",
+    "\"(\"",
+    "\")\"",
+    "\"[\"",
+    "\"]\"",
     "\";\"",
   };
 

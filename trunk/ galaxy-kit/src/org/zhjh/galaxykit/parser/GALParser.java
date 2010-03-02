@@ -3,49 +3,203 @@ package org.zhjh.galaxykit.parser;
 
 public class GALParser implements GALParserConstants {
   public static void main(String [] args)
-  {}
+  {
+          GALParser parser = new GALParser(System.in);
+          try {
+            parser.Program();
+          } catch (ParseException ex) {
+            System.out.println(ex.toString());
+          }
+  }
 
+/***************************** * Syntax Grammar Start Here * *****************************/
   final public void Program() throws ParseException {
-    if (jj_2_1(3)) {
-      FunctionDefinition();
-    } else {
+    label_1:
+    while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case INT:
-      case CHAR:
+      case IF:
       case BOOL:
-        VariableDefinition();
+      case INT:
+      case FIXED:
+      case STRING:
+      case IDENTIFIER:
+        ;
         break;
       default:
         jj_la1[0] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
+        break label_1;
       }
+      if (jj_2_1(3)) {
+        FunctionDefinition();
+      } else if (jj_2_2(2)) {
+        VariableDefinition();
+      } else {
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case IF:
+        case IDENTIFIER:
+          Statement();
+          break;
+        default:
+          jj_la1[1] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
+      }
+    }
+  }
+
+  final public void Block() throws ParseException {
+    jj_consume_token(26);
+    label_2:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case IF:
+      case IDENTIFIER:
+        ;
+        break;
+      default:
+        jj_la1[2] = jj_gen;
+        break label_2;
+      }
+      Statement();
+    }
+    jj_consume_token(27);
+  }
+
+  final public void Statement() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case IDENTIFIER:
+      AssignmentStatement();
+      break;
+    case IF:
+      IfStatement();
+      break;
+    default:
+      jj_la1[3] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+  }
+
+  final public void AssignmentStatement() throws ParseException {
+    LeftHandSideExpression();
+    jj_consume_token(28);
+    Expression();
+  }
+
+  final public void LeftHandSideExpression() throws ParseException {
+    Identifier();
+  }
+
+  final public void IfStatement() throws ParseException {
+    jj_consume_token(IF);
+    jj_consume_token(29);
+    Expression();
+    jj_consume_token(30);
+    Block();
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case ELSE:
+      jj_consume_token(ELSE);
+      Block();
+      break;
+    default:
+      jj_la1[4] = jj_gen;
+      ;
+    }
+  }
+
+  final public void Expression() throws ParseException {
+    PrimaryExpression();
+  }
+
+  final public void PrimaryExpression() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case STRING_LITERAL:
+      StringLiteral();
+      break;
+    case INTEGER_LITERAL:
+      IntegerLiteral();
+      break;
+    case FLOAT_LITERAL:
+      FloatLiteral();
+      break;
+    case TRUE:
+    case FALSE:
+      BooleanLiteral();
+      break;
+    case NULL:
+      HandleLiteral();
+      break;
+    default:
+      jj_la1[5] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
     }
   }
 
   final public void FunctionDefinition() throws ParseException {
     Type();
     Identifier();
-    jj_consume_token(19);
-    jj_consume_token(20);
+    jj_consume_token(26);
+    jj_consume_token(27);
   }
 
   final public void Type() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case INT:
-      jj_consume_token(INT);
-      break;
-    case CHAR:
-      jj_consume_token(CHAR);
-      break;
     case BOOL:
       jj_consume_token(BOOL);
       break;
+    case INT:
+      jj_consume_token(INT);
+      break;
+    case FIXED:
+      jj_consume_token(FIXED);
+      break;
+    case STRING:
+      jj_consume_token(STRING);
+      break;
+    case IDENTIFIER:
+      Identifier();
+      break;
     default:
-      jj_la1[1] = jj_gen;
+      jj_la1[6] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
+    jj_consume_token(31);
+    IntegerLiteral();
+    jj_consume_token(32);
+  }
+
+  final public void BooleanLiteral() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case TRUE:
+      jj_consume_token(TRUE);
+      break;
+    case FALSE:
+      jj_consume_token(FALSE);
+      break;
+    default:
+      jj_la1[7] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+  }
+
+  final public void StringLiteral() throws ParseException {
+    jj_consume_token(STRING_LITERAL);
+  }
+
+  final public void IntegerLiteral() throws ParseException {
+    jj_consume_token(INTEGER_LITERAL);
+  }
+
+  final public void FloatLiteral() throws ParseException {
+    jj_consume_token(FLOAT_LITERAL);
+  }
+
+  final public void HandleLiteral() throws ParseException {
+    jj_consume_token(NULL);
   }
 
   final public void Identifier() throws ParseException {
@@ -55,7 +209,7 @@ public class GALParser implements GALParserConstants {
   final public void VariableDefinition() throws ParseException {
     Type();
     Identifier();
-    jj_consume_token(21);
+    jj_consume_token(33);
   }
 
   private boolean jj_2_1(int xla) {
@@ -65,28 +219,51 @@ public class GALParser implements GALParserConstants {
     finally { jj_save(0, xla); }
   }
 
-  private boolean jj_3R_1() {
-    if (jj_3R_2()) return true;
-    if (jj_scan_token(16)) return true;
-    if (jj_scan_token(19)) return true;
+  private boolean jj_2_2(int xla) {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return !jj_3_2(); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(1, xla); }
+  }
+
+  private boolean jj_3R_3() {
+    if (jj_3R_5()) return true;
     return false;
   }
 
-  private boolean jj_3R_2() {
+  private boolean jj_3_2() {
+    if (jj_3R_4()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_5() {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_scan_token(8)) {
+    if (jj_scan_token(10)) {
     jj_scanpos = xsp;
-    if (jj_scan_token(9)) {
+    if (jj_scan_token(11)) {
     jj_scanpos = xsp;
-    if (jj_scan_token(10)) return true;
+    if (jj_scan_token(12)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(13)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(23)) return true;
     }
     }
+    }
+    }
+    if (jj_scan_token(31)) return true;
+    if (jj_scan_token(20)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_4() {
+    if (jj_3R_5()) return true;
     return false;
   }
 
   private boolean jj_3_1() {
-    if (jj_3R_1()) return true;
+    if (jj_3R_3()) return true;
     return false;
   }
 
@@ -101,15 +278,20 @@ public class GALParser implements GALParserConstants {
   private Token jj_scanpos, jj_lastpos;
   private int jj_la;
   private int jj_gen;
-  final private int[] jj_la1 = new int[2];
+  final private int[] jj_la1 = new int[8];
   static private int[] jj_la1_0;
+  static private int[] jj_la1_1;
   static {
       jj_la1_init_0();
+      jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x700,0x700,};
+      jj_la1_0 = new int[] {0x803c40,0x800040,0x800040,0x800040,0x80,0x7e0000,0x803c00,0x60000,};
    }
-  final private JJCalls[] jj_2_rtns = new JJCalls[1];
+   private static void jj_la1_init_1() {
+      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
+   }
+  final private JJCalls[] jj_2_rtns = new JJCalls[2];
   private boolean jj_rescan = false;
   private int jj_gc = 0;
 
@@ -124,7 +306,7 @@ public class GALParser implements GALParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 2; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 8; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -139,7 +321,7 @@ public class GALParser implements GALParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 2; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 8; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -150,7 +332,7 @@ public class GALParser implements GALParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 2; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 8; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -161,7 +343,7 @@ public class GALParser implements GALParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 2; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 8; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -171,7 +353,7 @@ public class GALParser implements GALParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 2; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 8; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -181,7 +363,7 @@ public class GALParser implements GALParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 2; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 8; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -293,21 +475,24 @@ public class GALParser implements GALParserConstants {
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[22];
+    boolean[] la1tokens = new boolean[34];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 8; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
             la1tokens[j] = true;
           }
+          if ((jj_la1_1[i] & (1<<j)) != 0) {
+            la1tokens[32+j] = true;
+          }
         }
       }
     }
-    for (int i = 0; i < 22; i++) {
+    for (int i = 0; i < 34; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;
@@ -334,7 +519,7 @@ public class GALParser implements GALParserConstants {
 
   private void jj_rescan_token() {
     jj_rescan = true;
-    for (int i = 0; i < 1; i++) {
+    for (int i = 0; i < 2; i++) {
     try {
       JJCalls p = jj_2_rtns[i];
       do {
@@ -342,6 +527,7 @@ public class GALParser implements GALParserConstants {
           jj_la = p.arg; jj_lastpos = jj_scanpos = p.first;
           switch (i) {
             case 0: jj_3_1(); break;
+            case 1: jj_3_2(); break;
           }
         }
         p = p.next;
