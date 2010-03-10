@@ -32,9 +32,11 @@ public class GALOutlinePageContentProvider implements IContentProvider, ITreeCon
 		if (parentElement == null){
 			return null;
 		}
-		final GALNode parent = (GALNode)parentElement;
-		if (parent == node){
-			return parent.getChildren();
+		if (parentElement instanceof GALNode){
+			final GALNode parent = (GALNode)parentElement;
+			if (parent == node){
+				return parent.getChildren();
+			}
 		}
 		return null;
 	}

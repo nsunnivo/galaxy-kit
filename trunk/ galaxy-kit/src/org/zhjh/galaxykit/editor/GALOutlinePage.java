@@ -24,6 +24,7 @@ public class GALOutlinePage extends ContentOutlinePage {
 		final TreeViewer viewer = getTreeViewer();
 		viewer.setContentProvider(fContentProvider);
 		viewer.setLabelProvider(fLabelProvider);
+		setInput(fDocument);
 	}
 
 	@Override
@@ -42,6 +43,10 @@ public class GALOutlinePage extends ContentOutlinePage {
 	public void setInput(IDocument input) {
 		fDocument = input;
 		fContentProvider.inputChanged(null, null, input);
+		final TreeViewer viewer = getTreeViewer();
+		if (viewer != null){
+			viewer.setInput(input);
+		}
 		update();
 	}
 
