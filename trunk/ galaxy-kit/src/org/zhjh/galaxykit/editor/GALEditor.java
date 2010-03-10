@@ -19,6 +19,7 @@ public class GALEditor extends TextEditor implements IGALConstants {
 		setSourceViewerConfiguration(new GALSourceViewerConfiguration());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Object getAdapter(Class adapter) {
 		if (IContentOutlinePage.class.equals(adapter)){
