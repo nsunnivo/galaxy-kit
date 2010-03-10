@@ -32,25 +32,21 @@ public class GALPresentationReconciler extends PresentationReconciler {
 		public static final String[] GAL_KEYWORDS = {
 			"if",
 			"else",
-			"switch",
-			"case",
-			"default",
-			"for",
 			"while",
 			"do",
 			"break",
 			"continue",
-			"goto",
 			"struct",
-			"sizeof",
 			"include",
 			"true",
 			"false",
 			"null",
+			"return",
 			"void",
 			"static",
 			"native",
-			"const"
+			"const",
+			"typedef"
 		};
 		
 		public static final String[] GAL_TYPES = {
