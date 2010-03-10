@@ -54,7 +54,7 @@ public class GALOutlinePageContentProvider implements IContentProvider, ITreeCon
 
 	@Override
 	public Object[] getElements(Object inputElement) {
-		return getChildren(inputElement);
+		return getChildren(node);
 	}
 	
 	protected void parse(final String text){
@@ -66,6 +66,7 @@ public class GALOutlinePageContentProvider implements IContentProvider, ITreeCon
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		in.close();
 	}
 	
 	protected GALNode getAST(){

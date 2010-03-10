@@ -41,6 +41,8 @@ public class GALOutlinePage extends ContentOutlinePage {
 	
 	public void setInput(IDocument input) {
 		fDocument = input;
+		fContentProvider.inputChanged(null, null, input);
+		update();
 	}
 
 	public void update() {
