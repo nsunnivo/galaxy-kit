@@ -1,6 +1,7 @@
 package org.zhjh.galaxykit.editor;
 
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.swt.graphics.Image;
 import org.zhjh.galaxykit.parser.ASTFunctionDefiniton;
 
 public class GALLabelProvider extends LabelProvider {
@@ -13,4 +14,10 @@ public class GALLabelProvider extends LabelProvider {
 		return element.toString();
 	}
 
+	@Override
+	public Image getImage(Object element) {
+		// TODO Auto-generated method stub
+		return super.getImage(element);
+	}
+	
 }

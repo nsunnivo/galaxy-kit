@@ -76,7 +76,7 @@ class GALNode implements Node {
   }
   
   public Node[] getChildren(){
-	  return (GALNode[])children;
+	  return children;
   }
   
 }
