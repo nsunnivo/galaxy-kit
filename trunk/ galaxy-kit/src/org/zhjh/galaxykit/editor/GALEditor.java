@@ -43,4 +43,13 @@ public class GALEditor extends TextEditor implements IGALConstants {
 		fOutlinePage.setInput(getDocument());
 	}
 	
+	@Override
+	public void dispose(){
+		super.dispose();
+		if (fOutlinePage != null){
+			fOutlinePage.dispose();
+			fOutlinePage = null;
+		}
+	}
+	
 }
