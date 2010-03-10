@@ -1,5 +1,6 @@
 package org.zhjh.galaxykit.editor;
 
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.zhjh.galaxykit.IGALConstants;
@@ -31,9 +32,15 @@ public class GALEditor extends TextEditor implements IGALConstants {
 		}
 		return super.getAdapter(adapter);
 	}
+
+	public IDocument getDocument() {
+		final IDocument doc = getDocumentProvider().getDocument(
+				getEditorInput());
+		return doc;
+	}
 	
 	protected void updateOutlinePage(){
-		
+		fOutlinePage.setInput(getDocument());
 	}
 	
 }
