@@ -1,49 +1,75 @@
 package org.zhjh.galaxykit.editor;
 
+import java.io.StringReader;
+
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
+import org.zhjh.galaxykit.parser.GALNode;
+import org.zhjh.galaxykit.parser.GALParser;
+import org.zhjh.galaxykit.parser.ParseException;
 
 public class GALOutlinePageContentProvider implements IContentProvider, ITreeContentProvider {
 
+	private GALNode node;
+	
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-
+		node = null;
 	}
 
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		// TODO Auto-generated method stub
-
+		if (newInput != null) {
+			final IDocument doc = (IDocument) newInput;
+			parse(doc.get());
+	    }
 	}
 
 	@Override
 	public Object[] getChildren(Object parentElement) {
-		// TODO Auto-generated method stub
+		if (parentElement == null){
+			return null;
+		}
+		final GALNode parent = (GALNode)parentElement;
+		if (parent == node){
+			return parent.getChildren();
+		}
 		return null;
 	}
 
 	@Override
 	public Object getParent(Object element) {
-		// TODO Auto-generated method stub
+		if (element != null){
+			return ((GALNode)element).jjtGetParent();
+		}
 		return null;
 	}
 
 	@Override
 	public boolean hasChildren(Object element) {
-		// TODO Auto-generated method stub
-		return false;
+		return getChildren(element) != null && getChildren(element).length != 0;
 	}
 
 	@Override
 	public Object[] getElements(Object inputElement) {
-		// TODO Auto-generated method stub
-		return null;
+		return getChildren(inputElement);
 	}
 	
 	protected void parse(final String text){
-		
+		final StringReader in = new StringReader(text);
+		final GALParser parser = new GALParser(in);
+		try {
+			node = parser.getAST();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	protected GALNode getAST(){
+		return node;
 	}
 
 }

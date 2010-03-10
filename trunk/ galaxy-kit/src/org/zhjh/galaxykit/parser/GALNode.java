@@ -74,6 +74,11 @@ class GALNode implements Node {
       }
     }
   }
+  
+  public GALNode[] getChildren(){
+	  return (GALNode[])children;
+  }
+  
 }
 
 /* JavaCC - OriginalChecksum=4756760b0d880f0b233b0867bd17adb9 (do not edit this line) */

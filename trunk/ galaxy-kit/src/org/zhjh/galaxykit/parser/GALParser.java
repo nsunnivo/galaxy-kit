@@ -7,7 +7,8 @@ public class GALParser/*@bgen(jjtree)*/implements GALParserTreeConstants, GALPar
     GALParser parser = new GALParser(System.in);
     try
     {
-      parser.Program();
+      GALNode root = parser.getAST();
+      root.dump("");
     }
     catch (ParseException ex)
     {
@@ -215,27 +216,52 @@ public class GALParser/*@bgen(jjtree)*/implements GALParserTreeConstants, GALPar
   }
 
   final public void FunctionDefinition() throws ParseException {
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case BOOL:
-    case INT:
-    case FIXED:
-    case STRING:
-    case IDENTIFIER:
-      Type();
-      break;
-    case VOID:
-      jj_consume_token(VOID);
-      break;
-    default:
-      jj_la1[7] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+ /*@bgen(jjtree) FunctionDefiniton */
+  ASTFunctionDefiniton jjtn000 = new ASTFunctionDefiniton(JJTFUNCTIONDEFINITON);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+    try {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case BOOL:
+      case INT:
+      case FIXED:
+      case STRING:
+      case IDENTIFIER:
+        Type();
+        break;
+      case VOID:
+        jj_consume_token(VOID);
+        break;
+      default:
+        jj_la1[7] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+      Identifier();
+    jjtn000.setIdentifier((String)((GALNode)jjtree.peekNode()).jjtGetValue());
+      jj_consume_token(37);
+      FormalParameterList();
+      jj_consume_token(38);
+      FunctionBody();
+    } catch (Throwable jjte000) {
+    if (jjtc000) {
+      jjtree.clearNodeScope(jjtn000);
+      jjtc000 = false;
+    } else {
+      jjtree.popNode();
     }
-    Identifier();
-    jj_consume_token(37);
-    FormalParameterList();
-    jj_consume_token(38);
-    FunctionBody();
+    if (jjte000 instanceof RuntimeException) {
+      {if (true) throw (RuntimeException)jjte000;}
+    }
+    if (jjte000 instanceof ParseException) {
+      {if (true) throw (ParseException)jjte000;}
+    }
+    {if (true) throw (Error)jjte000;}
+    } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+    }
   }
 
   final public void FunctionBody() throws ParseException {
@@ -917,7 +943,20 @@ public class GALParser/*@bgen(jjtree)*/implements GALParserTreeConstants, GALPar
   }
 
   final public void Identifier() throws ParseException {
-    jj_consume_token(IDENTIFIER);
+ /*@bgen(jjtree) Identifier */
+  ASTIdentifier jjtn000 = new ASTIdentifier(JJTIDENTIFIER);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);Token t;
+    try {
+      t = jj_consume_token(IDENTIFIER);
+    jjtree.closeNodeScope(jjtn000, true);
+    jjtc000 = false;
+    jjtn000.jjtSetValue(t.image);
+    } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+    }
   }
 
   private boolean jj_2_1(int xla) {
@@ -955,76 +994,6 @@ public class GALParser/*@bgen(jjtree)*/implements GALParserTreeConstants, GALPar
     finally { jj_save(4, xla); }
   }
 
-  private boolean jj_3R_41() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(56)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(57)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(58)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(59)) return true;
-    }
-    }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_38() {
-    if (jj_3R_40()) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_41()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_52() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(21)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(22)) return true;
-    }
-    return false;
-  }
-
-  private boolean jj_3R_25() {
-    if (jj_3R_26()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_21() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_25()) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(11)) return true;
-    }
-    if (jj_scan_token(29)) return true;
-    if (jj_scan_token(37)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_28() {
-    if (jj_scan_token(66)) return true;
-    if (jj_scan_token(25)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_43() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(54)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(55)) return true;
-    }
-    if (jj_3R_42()) return true;
-    return false;
-  }
-
   private boolean jj_3R_40() {
     if (jj_3R_42()) return true;
     Token xsp;
@@ -1035,49 +1004,52 @@ public class GALParser/*@bgen(jjtree)*/implements GALParserTreeConstants, GALPar
     return false;
   }
 
-  private boolean jj_3R_26() {
+  private boolean jj_3R_55() {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_scan_token(12)) {
+    if (jj_scan_token(21)) {
     jj_scanpos = xsp;
-    if (jj_scan_token(13)) {
+    if (jj_scan_token(22)) return true;
+    }
+    return false;
+  }
+
+  private boolean jj_3R_25() {
+    if (jj_3R_27()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_30() {
+    if (jj_scan_token(66)) return true;
+    if (jj_scan_token(25)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_21() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_25()) {
     jj_scanpos = xsp;
-    if (jj_scan_token(14)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(15)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(29)) return true;
+    if (jj_scan_token(11)) return true;
     }
-    }
-    }
-    }
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_28()) { jj_scanpos = xsp; break; }
-    }
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_scan_token(48)) { jj_scanpos = xsp; break; }
-    }
+    if (jj_3R_26()) return true;
+    if (jj_scan_token(37)) return true;
     return false;
   }
 
   private boolean jj_3R_45() {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_scan_token(48)) {
+    if (jj_scan_token(54)) {
     jj_scanpos = xsp;
-    if (jj_scan_token(24)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(53)) return true;
-    }
+    if (jj_scan_token(55)) return true;
     }
     if (jj_3R_44()) return true;
     return false;
   }
 
-  private boolean jj_3R_27() {
-    if (jj_3R_29()) return true;
+  private boolean jj_3R_29() {
+    if (jj_3R_26()) return true;
     return false;
   }
 
@@ -1091,41 +1063,49 @@ public class GALParser/*@bgen(jjtree)*/implements GALParserTreeConstants, GALPar
     return false;
   }
 
-  private boolean jj_3R_31() {
-    if (jj_scan_token(65)) return true;
-    if (jj_3R_30()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_29() {
-    if (jj_3R_30()) return true;
+  private boolean jj_3R_27() {
     Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(12)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(13)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(14)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(15)) {
+    jj_scanpos = xsp;
+    if (jj_3R_29()) return true;
+    }
+    }
+    }
+    }
     while (true) {
       xsp = jj_scanpos;
-      if (jj_3R_31()) { jj_scanpos = xsp; break; }
+      if (jj_3R_30()) { jj_scanpos = xsp; break; }
     }
-    return false;
-  }
-
-  private boolean jj_3R_53() {
-    if (jj_3R_54()) return true;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_scan_token(48)) { jj_scanpos = xsp; break; }
+    }
     return false;
   }
 
   private boolean jj_3R_47() {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_scan_token(51)) {
+    if (jj_scan_token(48)) {
     jj_scanpos = xsp;
-    if (jj_scan_token(52)) return true;
+    if (jj_scan_token(24)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(53)) return true;
     }
-    if (jj_scan_token(29)) return true;
+    }
+    if (jj_3R_46()) return true;
     return false;
   }
 
-  private boolean jj_3R_33() {
-    if (jj_scan_token(64)) return true;
-    if (jj_3R_32()) return true;
+  private boolean jj_3R_28() {
+    if (jj_3R_31()) return true;
     return false;
   }
 
@@ -1139,7 +1119,13 @@ public class GALParser/*@bgen(jjtree)*/implements GALParserTreeConstants, GALPar
     return false;
   }
 
-  private boolean jj_3R_30() {
+  private boolean jj_3R_33() {
+    if (jj_scan_token(65)) return true;
+    if (jj_3R_32()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_31() {
     if (jj_3R_32()) return true;
     Token xsp;
     while (true) {
@@ -1149,15 +1135,35 @@ public class GALParser/*@bgen(jjtree)*/implements GALParserTreeConstants, GALPar
     return false;
   }
 
+  private boolean jj_3R_56() {
+    if (jj_3R_57()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_49() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(51)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(52)) return true;
+    }
+    if (jj_3R_26()) return true;
+    return false;
+  }
+
   private boolean jj_3R_35() {
-    if (jj_scan_token(63)) return true;
+    if (jj_scan_token(64)) return true;
     if (jj_3R_34()) return true;
     return false;
   }
 
-  private boolean jj_3R_22() {
-    if (jj_3R_26()) return true;
-    if (jj_scan_token(29)) return true;
+  private boolean jj_3R_46() {
+    if (jj_3R_48()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_49()) { jj_scanpos = xsp; break; }
+    }
     return false;
   }
 
@@ -1171,24 +1177,8 @@ public class GALParser/*@bgen(jjtree)*/implements GALParserTreeConstants, GALPar
     return false;
   }
 
-  private boolean jj_3R_23() {
-    if (jj_3R_27()) return true;
-    if (jj_scan_token(33)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_24() {
-    if (jj_scan_token(29)) return true;
-    if (jj_scan_token(37)) return true;
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_53()) jj_scanpos = xsp;
-    if (jj_scan_token(38)) return true;
-    return false;
-  }
-
   private boolean jj_3R_37() {
-    if (jj_scan_token(62)) return true;
+    if (jj_scan_token(63)) return true;
     if (jj_3R_36()) return true;
     return false;
   }
@@ -1203,8 +1193,51 @@ public class GALParser/*@bgen(jjtree)*/implements GALParserTreeConstants, GALPar
     return false;
   }
 
-  private boolean jj_3R_54() {
+  private boolean jj_3R_22() {
     if (jj_3R_27()) return true;
+    if (jj_3R_26()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_23() {
+    if (jj_3R_28()) return true;
+    if (jj_scan_token(33)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_24() {
+    if (jj_3R_26()) return true;
+    if (jj_scan_token(37)) return true;
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_56()) jj_scanpos = xsp;
+    if (jj_scan_token(38)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_39() {
+    if (jj_scan_token(62)) return true;
+    if (jj_3R_38()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_36() {
+    if (jj_3R_38()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_39()) { jj_scanpos = xsp; break; }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_57() {
+    if (jj_3R_28()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_26() {
+    if (jj_scan_token(IDENTIFIER)) return true;
     return false;
   }
 
@@ -1213,17 +1246,17 @@ public class GALParser/*@bgen(jjtree)*/implements GALParserTreeConstants, GALPar
     return false;
   }
 
-  private boolean jj_3_1() {
-    if (jj_3R_21()) return true;
-    return false;
-  }
-
   private boolean jj_3_4() {
     if (jj_3R_23()) return true;
     return false;
   }
 
-  private boolean jj_3R_48() {
+  private boolean jj_3_1() {
+    if (jj_3R_21()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_50() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(47)) {
@@ -1239,40 +1272,45 @@ public class GALParser/*@bgen(jjtree)*/implements GALParserTreeConstants, GALPar
     return false;
   }
 
-  private boolean jj_3R_46() {
+  private boolean jj_3R_48() {
     Token xsp;
     while (true) {
       xsp = jj_scanpos;
-      if (jj_3R_48()) { jj_scanpos = xsp; break; }
+      if (jj_3R_50()) { jj_scanpos = xsp; break; }
     }
-    if (jj_3R_49()) return true;
+    if (jj_3R_51()) return true;
     return false;
   }
 
-  private boolean jj_3R_39() {
+  private boolean jj_3R_41() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(60)) {
     jj_scanpos = xsp;
     if (jj_scan_token(61)) return true;
     }
-    if (jj_3R_38()) return true;
+    if (jj_3R_40()) return true;
     return false;
   }
 
-  private boolean jj_3R_51() {
+  private boolean jj_3R_54() {
     if (jj_scan_token(37)) return true;
-    if (jj_3R_27()) return true;
+    if (jj_3R_28()) return true;
     if (jj_scan_token(38)) return true;
     return false;
   }
 
-  private boolean jj_3R_36() {
-    if (jj_3R_38()) return true;
+  private boolean jj_3R_53() {
+    if (jj_3R_26()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_38() {
+    if (jj_3R_40()) return true;
     Token xsp;
     while (true) {
       xsp = jj_scanpos;
-      if (jj_3R_39()) { jj_scanpos = xsp; break; }
+      if (jj_3R_41()) { jj_scanpos = xsp; break; }
     }
     return false;
   }
@@ -1282,8 +1320,8 @@ public class GALParser/*@bgen(jjtree)*/implements GALParserTreeConstants, GALPar
     return false;
   }
 
-  private boolean jj_3R_50() {
-    if (jj_3R_52()) return true;
+  private boolean jj_3R_52() {
+    if (jj_3R_55()) return true;
     return false;
   }
 
@@ -1292,7 +1330,7 @@ public class GALParser/*@bgen(jjtree)*/implements GALParserTreeConstants, GALPar
     return false;
   }
 
-  private boolean jj_3R_49() {
+  private boolean jj_3R_51() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(28)) {
@@ -1301,19 +1339,35 @@ public class GALParser/*@bgen(jjtree)*/implements GALParserTreeConstants, GALPar
     jj_scanpos = xsp;
     if (jj_scan_token(27)) {
     jj_scanpos = xsp;
-    if (jj_3R_50()) {
+    if (jj_3R_52()) {
     jj_scanpos = xsp;
     if (jj_scan_token(23)) {
     jj_scanpos = xsp;
     if (jj_3_5()) {
     jj_scanpos = xsp;
-    if (jj_scan_token(29)) {
+    if (jj_3R_53()) {
     jj_scanpos = xsp;
-    if (jj_3R_51()) return true;
+    if (jj_3R_54()) return true;
     }
     }
     }
     }
+    }
+    }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_43() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(56)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(57)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(58)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(59)) return true;
     }
     }
     }

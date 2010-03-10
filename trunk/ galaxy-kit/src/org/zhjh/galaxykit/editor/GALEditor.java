@@ -6,6 +6,8 @@ import org.zhjh.galaxykit.IGALConstants;
 
 public class GALEditor extends TextEditor implements IGALConstants {
 	
+	private GALOutlinePage fOutlinePage;
+	
 	public GALEditor(){
 		super();
 	}
@@ -20,9 +22,17 @@ public class GALEditor extends TextEditor implements IGALConstants {
 	@Override
 	public Object getAdapter(Class adapter) {
 		if (IContentOutlinePage.class.equals(adapter)){
-			return new GALOutlinePage();
+			if (fOutlinePage == null){
+				fOutlinePage = new GALOutlinePage();
+				updateOutlinePage();
+			}
+			return fOutlinePage;
 		}
 		return super.getAdapter(adapter);
+	}
+	
+	protected void updateOutlinePage(){
+		
 	}
 	
 }
