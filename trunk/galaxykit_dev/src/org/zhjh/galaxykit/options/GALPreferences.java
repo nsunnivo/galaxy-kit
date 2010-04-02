@@ -76,5 +76,8 @@ public class GALPreferences extends AbstractPreferenceInitializer
 	final Color color = getColor(IGALPreferencesConstants.COMMENT_COLOR);
 	return new TextAttribute(color, null, SWT.ITALIC);
     }
-
+    
+    public Color getCharacterMatchingColor() {
+	return getColor(IGALPreferencesConstants.CHARACTER_MATCHING_COLOR);
+    }
 }
