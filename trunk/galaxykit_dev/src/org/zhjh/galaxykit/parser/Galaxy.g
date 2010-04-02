@@ -21,16 +21,16 @@ declaration
   | function_declaration
   ;
 
-include_declaration : INCLUDE STRING ';';
-variable_declaration : type IDENTIFIER ('=' expression)? ';';
+include_declaration : INCLUDE STRING ';'!;
+variable_declaration : type^ IDENTIFIER ('='! expression)? ';'!;
 constant_declaration : CONST variable_declaration;
-function_declaration : result_type IDENTIFIER '(' parameter_list? ')' function_body;
-function_body : '{' variable_declaration* statement* '}';
+function_declaration : result_type IDENTIFIER '('! parameter_list? ')'! function_body;
+function_body : '{'! variable_declaration* statement* '}'!;
 type: IDENTIFIER;
 result_type : type | VOID;
 parameter : type IDENTIFIER;
-parameter_list : parameter (',' parameter)*;
-block : '{' statement* '}';
+parameter_list : parameter (',' parameter)* -> parameter +;
+block : '{'! statement* '}'!;
 
 statement
   : if_statement
@@ -42,14 +42,14 @@ statement
   | empty_statement
   | expression_statement
   ;
-if_statement : IF '(' expression ')' block;
-while_statement : WHILE '(' expression ')' block;
-break_statement : BREAK ';';
-continue_statement : CONTINUE ';';
-return_statement : RETURN expression? ';';
-assignment_statement : left_hand_side_expression '=' expression ';';
-empty_statement : ';';
-expression_statement : expression ';';
+if_statement : IF^ '('! expression ')'! block;
+while_statement : WHILE^ '('! expression ')'! block;
+break_statement : BREAK^ ';'!;
+continue_statement : CONTINUE^ ';'!;
+return_statement : RETURN^ expression? ';'!;
+assignment_statement : left_hand_side_expression '='^ expression ';'!;
+empty_statement : ';'!;
+expression_statement : expression ';'!;
 
 expression
   : logicalOR_expression
@@ -61,23 +61,23 @@ primary_expression
   | TRUE | FALSE
   | NULL
   | IDENTIFIER
-  | '(' expression ')'
+  | '('! expression ')'!
   | call_expression
   ;
-call_expression : IDENTIFIER '(' argument_list? ')';
+call_expression : IDENTIFIER '('! argument_list? ')'!;
 unary_expression : ('+' | '-' | '!' | '~')* primary_expression;
-argument_list : expression (',' expression)*;
-member_expression : unary_expression (('.' | '->') IDENTIFIER)*;
+argument_list : expression (',' expression)* -> expression+;
+member_expression : unary_expression (('.' | '->')^ IDENTIFIER)*;
 left_hand_side_expression : member_expression;
-multiplicative_expression : member_expression (('*' | '/' | '%') member_expression)*;
-additive_expression : multiplicative_expression (('+' | '-') multiplicative_expression)*;
-relation_expression : additive_expression (('<' | '<=' | '>' | '>=') additive_expression)*;
-equality_expression : relation_expression (('==' | '!=') relation_expression)*;
-bitwiseAND_expression : equality_expression ('&' equality_expression)*;
-bitwiseXOR_expression : bitwiseAND_expression ('^' bitwiseAND_expression)*;
-bitwiseOR_expression : bitwiseXOR_expression ('|' bitwiseXOR_expression)*;
-logicalAND_expression : bitwiseOR_expression ('&&' bitwiseOR_expression)*;
-logicalOR_expression : logicalAND_expression ('||' logicalAND_expression)*;
+multiplicative_expression : member_expression (('*' | '/' | '%')^ member_expression)*;
+additive_expression : multiplicative_expression (('+' | '-')^ multiplicative_expression)*;
+relation_expression : additive_expression (('<' | '<=' | '>' | '>=')^ additive_expression)*;
+equality_expression : relation_expression (('==' | '!=')^ relation_expression)*;
+bitwiseAND_expression : equality_expression ('&'^ equality_expression)*;
+bitwiseXOR_expression : bitwiseAND_expression ('^'^ bitwiseAND_expression)*;
+bitwiseOR_expression : bitwiseXOR_expression ('|'^ bitwiseXOR_expression)*;
+logicalAND_expression : bitwiseOR_expression ('&&'^ bitwiseOR_expression)*;
+logicalOR_expression : logicalAND_expression ('||'^ logicalAND_expression)*;
 
 
 WHITESPACE : (' '| '\t' | '\r' | '\n' | '\f')+ { $channel = HIDDEN; };
