@@ -44,6 +44,7 @@ public class GALEditor extends TextEditor {
 	    painter.setColor(GALPreferences.getDefault().getCharacterMatchingColor());
 	    ((ITextViewerExtension2) viewer).addPainter(painter);
 	}
+	
     }
 
     @Override
@@ -54,7 +55,7 @@ public class GALEditor extends TextEditor {
     
     public void update(IDocument doc){
 	parser.parse(doc);
-	Display.getDefault().syncExec(new Runnable() {
+	Display.getDefault().asyncExec(new Runnable() {
 
 	    @Override
 	    public void run() {
@@ -70,7 +71,8 @@ public class GALEditor extends TextEditor {
 	if (IContentOutlinePage.class.equals(required)) {
 	    if (outlinePage == null) {
 		outlinePage = new GALOutlinePage();
-		outlinePage.setInput(parser.getAST());
+		update(getSourceViewer().getDocument());
+		//outlinePage.setInput(parser.getAST());
 	    }
 	    return outlinePage;
 	}

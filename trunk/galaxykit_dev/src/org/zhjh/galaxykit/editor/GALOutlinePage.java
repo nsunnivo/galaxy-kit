@@ -16,7 +16,7 @@ public class GALOutlinePage extends ContentOutlinePage {
 
     private GALOutlinePageContentProvider contentProvider;
     private GALOutlinePageLabelProvider labelProvider;
-    private IDocument document;
+    private Tree content;
 
     GALOutlinePage() {
 	super();
@@ -30,6 +30,7 @@ public class GALOutlinePage extends ContentOutlinePage {
 	final TreeViewer viewer = getTreeViewer();
 	viewer.setContentProvider(contentProvider);
 	viewer.setLabelProvider(labelProvider);
+	update();
     }
 
     @Override
@@ -47,6 +48,7 @@ public class GALOutlinePage extends ContentOutlinePage {
 
     public void setInput(Tree ast) {
 	final TreeViewer viewer = getTreeViewer();
+	content = ast;
 	if (viewer != null) {
 	    viewer.setInput(ast);
 	}
@@ -59,8 +61,8 @@ public class GALOutlinePage extends ContentOutlinePage {
 	    final Control control = viewer.getControl();
 	    if (control != null && !control.isDisposed()) {
 		control.setRedraw(false);
-		if (this.document != null) {
-		    viewer.refresh(this.document, true);
+		if (content != null) {
+		    viewer.refresh(content, true);
 		}
 		control.setRedraw(true);
 	    }
@@ -94,6 +96,9 @@ public class GALOutlinePage extends ContentOutlinePage {
 
 	@Override
 	public Object getParent(Object element) {
+	    if (element instanceof Tree) {
+		return ((Tree)element).getParent();
+	    }
 	    return null;
 	}
 
