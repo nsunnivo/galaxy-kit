@@ -8,6 +8,20 @@ options {
 @header {
 package org.zhjh.galaxykit.parser;
 }
+@members {
+  private List<RecognitionException> errors;
+  @Override
+  public void reportError(RecognitionException e) {
+    super.reportError(e);
+    if (errors == null) {
+      errors = new ArrayList<RecognitionException>();;
+    }
+    errors.add(e);
+  }
+  public List<RecognitionException> getErrors() {
+    return errors;
+  }
+}
 
 @lexer::header {
 package org.zhjh.galaxykit.parser;
