@@ -1,6 +1,7 @@
 package org.zhjh.galaxykit.editor;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.antlr.runtime.ANTLRReaderStream;
 import org.antlr.runtime.CharStream;
@@ -39,7 +40,12 @@ public class GALSharedParser {
 	}
     }
     
-    public Tree getAST(){
+    public Tree getAST() {
 	return ast;
     }
+    
+    public List<RecognitionException> getErrors() {
+	return parser.getErrors();
+    }
+    
 }
