@@ -79,7 +79,17 @@ public class GALOutlinePage extends ContentOutlinePage {
 
 	@Override
 	public Object[] getChildren(Object parentElement) {
-	    return null;
+	    Object[] children = null;
+	    if (parentElement instanceof Tree) {
+		final Tree node = (Tree) parentElement;
+		if (node.getChildCount() > 0) {
+		    children = new Tree[node.getChildCount()];
+		    for (int i = 0; i < node.getChildCount(); i++) {
+			children[i] = node.getChild(i);
+		    }
+		}
+	    }
+	    return children;
 	}
 
 	@Override
@@ -100,7 +110,7 @@ public class GALOutlinePage extends ContentOutlinePage {
 
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-	    if (newInput != null) {
+	    if (newInput instanceof Tree) {
 		ast = (Tree) newInput;
 	    }
 	}
@@ -110,6 +120,9 @@ public class GALOutlinePage extends ContentOutlinePage {
 
 	@Override
 	public String getText(Object element) {
+	    if (element instanceof Tree) {
+		return ((Tree)element).getText();
+	    }
 	    return null;
 	}
 

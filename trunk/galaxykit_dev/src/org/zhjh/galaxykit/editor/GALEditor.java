@@ -1,12 +1,17 @@
 package org.zhjh.galaxykit.editor;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextViewerExtension2;
 import org.eclipse.jface.text.source.DefaultCharacterPairMatcher;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.MatchingCharacterPainter;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.application.WorkbenchAdvisor;
 import org.eclipse.ui.editors.text.TextEditor;
+import org.eclipse.ui.progress.UIJob;
 import org.eclipse.ui.texteditor.SourceViewerDecorationSupport;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.zhjh.galaxykit.options.GALPreferences;
@@ -53,7 +58,14 @@ public class GALEditor extends TextEditor {
     
     public void update(IDocument doc){
 	parser.parse(doc);
-	outlinePage.setInput(parser.getAST());
+	Display.getDefault().syncExec(new Runnable() {
+
+	    @Override
+	    public void run() {
+		outlinePage.setInput(parser.getAST());
+	    }
+	    
+	});
     }
     
     @Override
