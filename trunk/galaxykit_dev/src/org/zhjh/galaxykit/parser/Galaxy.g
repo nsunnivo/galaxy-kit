@@ -47,7 +47,8 @@ while_statement : WHILE^ '('! expression ')'! block;
 break_statement : BREAK^ ';'!;
 continue_statement : CONTINUE^ ';'!;
 return_statement : RETURN^ expression? ';'!;
-assignment_statement : left_hand_side_expression '='^ expression ';'!;
+assignment_statement : left_hand_side_expression (
+    '='|'+='|'-='|'*='|'/='|'%='|'&='|'|='|'^='|'&&='|'||=')^ expression ';'!;
 empty_statement : ';'!;
 expression_statement : expression ';'!;
 
