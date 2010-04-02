@@ -8,11 +8,13 @@ import org.eclipse.jface.text.source.MatchingCharacterPainter;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.texteditor.SourceViewerDecorationSupport;
+import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.zhjh.galaxykit.options.GALPreferences;
 
 public class GALEditor extends TextEditor {
     
     private GALSharedParser parser;
+    private GALOutlinePage outlinePage;
     
     public GALEditor() {
         super();
@@ -51,6 +53,20 @@ public class GALEditor extends TextEditor {
     
     public void update(IDocument doc){
 	parser.parse(doc);
+	outlinePage.setInput(parser.getAST());
+    }
+    
+    @Override
+    @SuppressWarnings("unchecked")
+    public Object getAdapter(final Class required) {
+	if (IContentOutlinePage.class.equals(required)) {
+	    if (outlinePage == null) {
+		outlinePage = new GALOutlinePage();
+		outlinePage.setInput(parser.getAST());
+	    }
+	    return outlinePage;
+	}
+	return super.getAdapter(required);
     }
     
 }
