@@ -39,7 +39,8 @@ public class GALPreferences extends AbstractPreferenceInitializer
 	setDefaultColor(IGALPreferencesConstants.COMMENT_COLOR, display.getSystemColor(SWT.COLOR_GRAY));
 	setDefaultColor(IGALPreferencesConstants.KEYWORD_COLOR, display.getSystemColor(SWT.COLOR_BLACK));
 	setDefaultColor(IGALPreferencesConstants.NUMBER_COLOR, display.getSystemColor(SWT.COLOR_RED));
-	setDefaultColor(IGALPreferencesConstants.STRING_COLOR, display.getSystemColor(SWT.COLOR_GREEN));
+	setDefaultColor(IGALPreferencesConstants.STRING_COLOR, display.getSystemColor(SWT.COLOR_DARK_GREEN));
+	setDefaultColor(IGALPreferencesConstants.TYPE_COLOR, display.getSystemColor(SWT.COLOR_BLUE));
     }
 
     protected IPreferenceStore getPreferenceStore() {
@@ -75,6 +76,11 @@ public class GALPreferences extends AbstractPreferenceInitializer
     public TextAttribute getCommentTextAttribute() {
 	final Color color = getColor(IGALPreferencesConstants.COMMENT_COLOR);
 	return new TextAttribute(color, null, SWT.ITALIC);
+    }
+    
+    public TextAttribute getTypeTextAttribute() {
+	final Color color = getColor(IGALPreferencesConstants.TYPE_COLOR);
+	return new TextAttribute(color, null, SWT.BOLD);
     }
     
     public Color getCharacterMatchingColor() {

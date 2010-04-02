@@ -1,6 +1,8 @@
 package org.zhjh.galaxykit.editor;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.antlr.runtime.ANTLRReaderStream;
 import org.antlr.runtime.CommonToken;
@@ -17,9 +19,45 @@ public class GALScanner implements ITokenScanner {
     private GalaxyLexer lexer;
     private CommonToken lastToken;
     private int startOffset;
+    private Set<String> typeSet;
     
     public GALScanner(){
 	lexer = new GalaxyLexer();
+	typeSet = new HashSet<String>();
+	typeSet.add("bool");
+	typeSet.add("int");
+	typeSet.add("fixed");
+	typeSet.add("string");
+	typeSet.add("abilcmd");
+	typeSet.add("actor");
+	typeSet.add("actorscope");
+	typeSet.add("aifilter");
+	typeSet.add("animtarget");
+	typeSet.add("bank");
+	typeSet.add("camerainfo");
+	typeSet.add("color");
+	typeSet.add("doodad");
+	typeSet.add("fixed");
+	typeSet.add("handle");
+	typeSet.add("marker");
+	typeSet.add("order");
+	typeSet.add("playergroup");
+	typeSet.add("point");
+	typeSet.add("region");
+	typeSet.add("revealer");
+	typeSet.add("sound");
+	typeSet.add("soundlink");
+	typeSet.add("text");
+	typeSet.add("timer");
+	typeSet.add("transmissionsource");
+	typeSet.add("trigger");
+	typeSet.add("unit");
+	typeSet.add("unitfilter");
+	typeSet.add("unitgroup");
+	typeSet.add("unitref");
+	typeSet.add("wave");
+	typeSet.add("waveinfo");
+	typeSet.add("wavetarget");
     }
     
     @Override
@@ -57,6 +95,11 @@ public class GALScanner implements ITokenScanner {
 	    return new Token(prefs.getNumberTextAttribute());
 	case GalaxyLexer.STRING:
 	    return new Token(prefs.getStringTextAttribute());
+	case GalaxyLexer.IDENTIFIER:
+	    if (typeSet.contains(lastToken.getText())) {
+		return new Token(prefs.getTypeTextAttribute());
+	    }
+	    break;
 	case GalaxyLexer.EOF:
 	    return Token.EOF;
 	}
