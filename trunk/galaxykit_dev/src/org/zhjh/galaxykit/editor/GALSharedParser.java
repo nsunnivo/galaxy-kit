@@ -24,7 +24,7 @@ public class GALSharedParser {
 	parser = new GalaxyParser(tokenStream);
     }
 
-    public void parse(IDocument doc) {
+    public void parse(IDocument doc) throws RecognitionException {
 	DocumentReader reader = new DocumentReader(doc);
 	CharStream input;
 	try {
@@ -34,8 +34,6 @@ public class GALSharedParser {
 	    ast = (Tree) parser.program().getTree();
 	} catch (IOException e) {
 	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	} catch (RecognitionException e) {
 	    e.printStackTrace();
 	}
     }
