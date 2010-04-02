@@ -12,7 +12,7 @@ public class GalaxyParserTest {
     public static void main(String[] args) {
 	try {
 	    GalaxyLexer lexer = new GalaxyLexer();
-	    InputStream stream = GalaxyParserTest.class.getClassLoader().getResourceAsStream(PATH);
+	    InputStream stream = GalaxyParserTest.class.getResourceAsStream(PATH);
 	    lexer.setCharStream(new ANTLRInputStream(stream));
 	    GalaxyParser parser = new GalaxyParser(
 	    	new CommonTokenStream(lexer)

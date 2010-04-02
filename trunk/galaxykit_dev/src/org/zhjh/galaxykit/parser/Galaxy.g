@@ -22,9 +22,10 @@ declaration
   ;
 
 include_declaration : INCLUDE STRING ';';
-variable_declaration : type IDENTIFIER ';';
-constant_declaration : CONST type IDENTIFIER ';';
-function_declaration : result_type IDENTIFIER '(' parameter_list? ')' block;
+variable_declaration : type IDENTIFIER ('=' expression)? ';';
+constant_declaration : CONST variable_declaration;
+function_declaration : result_type IDENTIFIER '(' parameter_list? ')' function_body;
+function_body : '{' variable_declaration* statement* '}';
 type: IDENTIFIER;
 result_type : type | VOID;
 parameter : type IDENTIFIER;
@@ -61,16 +62,17 @@ primary_expression
   | NULL
   | IDENTIFIER
   | '(' expression ')'
+  | call_expression
   ;
-unary_expression : ('+' | '-' | '!' | '~')* primary_expression;
 call_expression : IDENTIFIER '(' argument_list? ')';
+unary_expression : ('+' | '-' | '!' | '~')* primary_expression;
 argument_list : expression (',' expression)*;
-member_expression : unary_expression ('.' | '->' IDENTIFIER)*;
+member_expression : unary_expression (('.' | '->') IDENTIFIER)*;
 left_hand_side_expression : member_expression;
-multiplicative_expression : member_expression ('*' | '/' | '%' member_expression)*;
-additive_expression : multiplicative_expression ('+' | '-' multiplicative_expression)*;
-relation_expression : additive_expression ('<' | '<=' | '>' | '>=' additive_expression)*;
-equality_expression : relation_expression ('==' | '!=' relation_expression)*;
+multiplicative_expression : member_expression (('*' | '/' | '%') member_expression)*;
+additive_expression : multiplicative_expression (('+' | '-') multiplicative_expression)*;
+relation_expression : additive_expression (('<' | '<=' | '>' | '>=') additive_expression)*;
+equality_expression : relation_expression (('==' | '!=') relation_expression)*;
 bitwiseAND_expression : equality_expression ('&' equality_expression)*;
 bitwiseXOR_expression : bitwiseAND_expression ('^' bitwiseAND_expression)*;
 bitwiseOR_expression : bitwiseXOR_expression ('|' bitwiseXOR_expression)*;
