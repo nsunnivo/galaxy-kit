@@ -41,6 +41,7 @@ public class GALPreferences extends AbstractPreferenceInitializer
 	setDefaultColor(IGALPreferencesConstants.NUMBER_COLOR, display.getSystemColor(SWT.COLOR_RED));
 	setDefaultColor(IGALPreferencesConstants.STRING_COLOR, display.getSystemColor(SWT.COLOR_DARK_GREEN));
 	setDefaultColor(IGALPreferencesConstants.TYPE_COLOR, display.getSystemColor(SWT.COLOR_BLUE));
+	setDefaultColor(IGALPreferencesConstants.CHARACTER_MATCHING_COLOR, display.getSystemColor(SWT.COLOR_DARK_GREEN));
     }
 
     protected IPreferenceStore getPreferenceStore() {
