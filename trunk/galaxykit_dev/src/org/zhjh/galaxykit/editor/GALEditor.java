@@ -108,11 +108,11 @@ public class GALEditor extends TextEditor {
     private void updateAnnotationModel() {
 	IAnnotationModel model = getSourceViewer().getAnnotationModel();
 	Iterator itor = model.getAnnotationIterator();
-	List<Annotation> toBeRemoved = new ArrayList<Annotation>();
-	Map<Annotation, Position> toBeAdded = new HashMap<Annotation, Position>(
-		16);
 	while (itor.hasNext()) {
-	    toBeRemoved.add((Annotation) itor.next());
+	    Annotation annotation = (Annotation) itor.next();
+	    if (annotation.getType().equals(IGALPreferencesConstants.ANNOTATION_TYPE_ERROR)) {
+		model.removeAnnotation(annotation);
+	    }
 	}
 	for (RecognitionException re : parser.getErrors()) {
 	    Annotation anno = new Annotation(
@@ -120,11 +120,8 @@ public class GALEditor extends TextEditor {
 	    final CommonToken token = (CommonToken)re.token;
 	    Position pos = new Position(token.getStartIndex(), token.getStopIndex()
 		    - token.getStartIndex() + 1);
-	    toBeAdded.put(anno, pos);
+	    model.addAnnotation(anno, pos);
 	}
-	model.getAnnotationIterator();
-	((IAnnotationModelExtension) model).replaceAnnotations(
-		(Annotation[]) toBeRemoved.toArray(), toBeAdded);
     }
 
 }
