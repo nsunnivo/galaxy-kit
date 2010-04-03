@@ -9,6 +9,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Canvas;
 import org.zhjh.galaxykit.options.GALPreferences;
+import org.zhjh.galaxykit.options.IGALPreferencesConstants;
 
 public class GALErrorAnnotation extends Annotation implements IAnnotationPresentation {
 
@@ -49,12 +50,15 @@ public class GALErrorAnnotation extends Annotation implements IAnnotationPresent
 		gc.fillRectangle(bounds);
 
 		Image image = getErrorImage();
-		if (image != null)
+		if (image != null) {
 			gc.drawImage(image, x, y + 2);
+			image.dispose();
+		}
 	}
 	
 	protected Image getErrorImage() {
-		return GALPreferences.getDefault().getImage("error.gif");
+		return GALPreferences.getDefault().getImage(
+				IGALPreferencesConstants.IMAGE_ERROR);
 	}
 
 }
