@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.antlr.runtime.CommonToken;
 import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.tree.Tree;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextViewerExtension2;
 import org.eclipse.jface.text.Position;
@@ -13,6 +14,10 @@ import org.eclipse.jface.text.source.DefaultCharacterPairMatcher;
 import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.MatchingCharacterPainter;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.editors.text.TextEditor;
@@ -99,6 +104,7 @@ public class GALEditor extends TextEditor {
 		if (IContentOutlinePage.class.equals(required)) {
 			if (outlinePage == null) {
 				outlinePage = new GALOutlinePage();
+				outlinePage.addSelectionChangedListener(outlineSelectionChangedListener);
 				update(getSourceViewer().getDocument());
 				// outlinePage.setInput(parser.getAST());
 			}
@@ -106,7 +112,27 @@ public class GALEditor extends TextEditor {
 		}
 		return super.getAdapter(required);
 	}
+	private ISelectionChangedListener outlineSelectionChangedListener = new ISelectionChangedListener() {
 
+		@Override
+		public void selectionChanged(SelectionChangedEvent event) {
+			ISelection selection = event.getSelection();
+			if (selection.isEmpty()) {
+				resetHighlightRange();
+			} else {
+				Tree node = (Tree)((IStructuredSelection)selection).getFirstElement();
+				CommonToken token = (CommonToken)parser.getToken(node.getTokenStartIndex());
+				int start = token.getStartIndex();
+				int length = token.getStopIndex() - token.getStartIndex() + 1;
+		        selectAndReveal(start, length);
+		        resetHighlightRange();
+		        setHighlightRange(start, length, true);
+		        markInNavigationHistory();
+			}
+		}
+
+	};
+	
 	private void updateOutlinePage() {
 		if (disableOutlinePage) {
 			outlinePage.setInput(null);

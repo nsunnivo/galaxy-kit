@@ -8,6 +8,7 @@ import org.antlr.runtime.ANTLRReaderStream;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.Token;
 import org.antlr.runtime.tree.Tree;
 import org.eclipse.jface.text.IDocument;
 import org.zhjh.galaxykit.parser.GalaxyLexer;
@@ -55,6 +56,10 @@ public class GALSharedParser {
 
 	public Tree getAST() {
 		return ast;
+	}
+	
+	public Token getToken(int index) {
+		return tokenStream.get(index);
 	}
 
 	public List<RecognitionException> getErrors() {
