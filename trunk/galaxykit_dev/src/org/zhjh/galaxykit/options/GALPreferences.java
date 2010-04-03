@@ -109,11 +109,10 @@ public class GALPreferences extends AbstractPreferenceInitializer implements
 		final ImageRegistry registry = getImageRegistry();
 		ImageDescriptor ret = null;
 		if (registry.getDescriptor(key) == null) {
-			try {
-				ret = AbstractUIPlugin.imageDescriptorFromPlugin(GALPlugin.PLUGIN_ID, key);
-			} catch (RuntimeException ex) {
-				ret = ImageDescriptor.createFromFile(getClass(), key);
-			}
+			ret = AbstractUIPlugin.imageDescriptorFromPlugin(GALPlugin.PLUGIN_ID, key);
+		}
+		if (ret == null) {
+			ret = ImageDescriptor.createFromFile(getClass(), key);
 		}
 		if (ret == null) {
 			ret = ImageDescriptor.getMissingImageDescriptor();
