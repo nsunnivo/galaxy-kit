@@ -34,10 +34,10 @@ public class GALSharedParser {
 			input = new ANTLRReaderStream(reader);
 			GalaxyLexer lexer = new GalaxyLexer(input);
 			tokenStream.setTokenSource(lexer);
-			ast = (Tree) parser.program().getTree();
-			errors.clear();
 			lexer.clearErrors();
 			parser.clearErrors();
+			ast = (Tree) parser.program().getTree();
+			errors.clear();
 			if (lexer.getErrors() != null) {
 				errors.addAll(lexer.getErrors());
 			}
