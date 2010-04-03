@@ -52,7 +52,6 @@ public class GALErrorAnnotation extends Annotation implements IAnnotationPresent
 		Image image = getErrorImage();
 		if (image != null) {
 			gc.drawImage(image, x, y + 2);
-			image.dispose();
 		}
 	}
 	

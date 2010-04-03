@@ -124,6 +124,7 @@ public class GALEditor extends TextEditor {
 			if (annotation.getType().equals(
 					IGALPreferencesConstants.ANNOTATION_TYPE_ERROR)) {
 				model.removeAnnotation(annotation);
+				annotation.markDeleted(true);
 			}
 		}
 		List<RecognitionException> errors = parser.getErrors();
