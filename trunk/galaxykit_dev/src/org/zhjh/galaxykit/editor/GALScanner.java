@@ -86,6 +86,7 @@ public class GALScanner implements ITokenScanner {
 	case GalaxyLexer.RETURN:
 	case GalaxyLexer.VOID:
 	case GalaxyLexer.NATIVE:
+	case GalaxyLexer.INCLUDE:
 	case GalaxyLexer.TRUE:
 	case GalaxyLexer.FALSE:
 	case GalaxyLexer.NULL:
