@@ -15,13 +15,17 @@ package org.zhjh.galaxykit.parser;
     super.reportError(e);
     if (errors == null) {
       errors = new ArrayList<RecognitionException>();;
-    } else {
-      errors.clear();
     }
     errors.add(e);
   }
   public List<RecognitionException> getErrors() {
     return errors;
+  }
+  public void clearErrors(){
+    if (errors != null) {
+      errors.clear();
+    }
+    errors = null;
   }
 }
 @lexer::members {
@@ -31,13 +35,17 @@ package org.zhjh.galaxykit.parser;
     super.reportError(e);
     if (errors == null) {
       errors = new ArrayList<RecognitionException>();;
-    } else {
-      errors.clear();
     }
     errors.add(e);
   }
   public List<RecognitionException> getErrors() {
     return errors;
+  }
+  public void clearErrors(){
+    if (errors != null) {
+      errors.clear();
+    }
+    errors = null;
   }
 }
 
