@@ -15,6 +15,8 @@ package org.zhjh.galaxykit.parser;
     super.reportError(e);
     if (errors == null) {
       errors = new ArrayList<RecognitionException>();;
+    } else {
+      errors.clear();
     }
     errors.add(e);
   }
@@ -29,6 +31,8 @@ package org.zhjh.galaxykit.parser;
     super.reportError(e);
     if (errors == null) {
       errors = new ArrayList<RecognitionException>();;
+    } else {
+      errors.clear();
     }
     errors.add(e);
   }
