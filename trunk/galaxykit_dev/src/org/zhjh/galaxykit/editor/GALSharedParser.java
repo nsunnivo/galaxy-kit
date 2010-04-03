@@ -39,8 +39,12 @@ public class GALSharedParser {
 			tokenStream.setTokenSource(lexer);
 			ast = (Tree) parser.program().getTree();
 			errors.clear();
-			errors.addAll(lexer.getErrors());
-			errors.addAll(parser.getErrors());
+			if (lexer.getErrors() != null) {
+				errors.addAll(lexer.getErrors());
+			}
+			if (parser.getErrors() != null) {
+				errors.addAll(parser.getErrors());
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
