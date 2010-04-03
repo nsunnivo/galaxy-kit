@@ -2,10 +2,7 @@ package org.zhjh.galaxykit.editor;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import org.antlr.runtime.ANTLRReaderStream;
 import org.antlr.runtime.CharStream;
@@ -30,7 +27,7 @@ public class GALSharedParser {
 		errors = new ArrayList<RecognitionException>();
 	}
 
-	public void parse(IDocument doc) throws RecognitionException {
+	public void parse(IDocument doc) {
 		DocumentReader reader = new DocumentReader(doc);
 		CharStream input;
 		try {
@@ -46,6 +43,9 @@ public class GALSharedParser {
 				errors.addAll(parser.getErrors());
 			}
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RecognitionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

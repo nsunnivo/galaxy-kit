@@ -77,11 +77,9 @@ public class GALEditor extends TextEditor {
 	}
 
 	public void update(IDocument doc) {
-		try {
-			disableOutlinePage = false;
-			parser.parse(doc);
-		} catch (RecognitionException e) {
-			e.printStackTrace();
+		disableOutlinePage = false;
+		parser.parse(doc);
+		if (parser.getErrors().size() > 0) {
 			disableOutlinePage = true;
 		}
 		Display.getDefault().asyncExec(new Runnable() {
