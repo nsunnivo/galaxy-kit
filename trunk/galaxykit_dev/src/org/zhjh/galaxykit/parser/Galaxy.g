@@ -36,7 +36,7 @@ declaration
   | function_declaration
   ;
 
-include_declaration : INCLUDE STRING ';';
+include_declaration : INCLUDE STRING;
 variable_declaration : type IDENTIFIER ('=' expression)? ';';
 constant_declaration : CONST variable_declaration ';';
 native_declaration : NATIVE result_type IDENTIFIER '(' parameter_list? ')' ';' -> IDENTIFIER;
