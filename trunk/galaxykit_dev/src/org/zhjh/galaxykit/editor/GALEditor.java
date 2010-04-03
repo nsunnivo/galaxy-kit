@@ -111,8 +111,8 @@ public class GALEditor extends TextEditor {
 			}
 		}
 		for (RecognitionException re : parser.getErrors()) {
-			Annotation anno = new Annotation(
-					IGALPreferencesConstants.ANNOTATION_TYPE_ERROR, true, re
+			GALErrorAnnotation anno = new GALErrorAnnotation(
+					IGALPreferencesConstants.ANNOTATION_TYPE_ERROR, re
 							.getMessage());
 			final CommonToken token = (CommonToken) re.token;
 			Position pos = new Position(token.getStartIndex(), token
