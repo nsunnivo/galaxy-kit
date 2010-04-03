@@ -16,8 +16,8 @@ public class GALErrorAnnotation extends Annotation implements IAnnotationPresent
 		super(false);
 	}
 
-	public GALErrorAnnotation(String type, String text) {
-		super(type, false, text);
+	public GALErrorAnnotation(String type, boolean isPersistent, String text) {
+		super(type, isPersistent, text);
 	}
 	
 	@Override

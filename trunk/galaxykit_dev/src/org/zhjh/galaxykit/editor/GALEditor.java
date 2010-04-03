@@ -1,6 +1,7 @@
 package org.zhjh.galaxykit.editor;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.antlr.runtime.CommonToken;
 import org.antlr.runtime.RecognitionException;
@@ -15,8 +16,11 @@ import org.eclipse.jface.text.source.MatchingCharacterPainter;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.editors.text.TextEditor;
+import org.eclipse.ui.texteditor.AnnotationPreference;
+import org.eclipse.ui.texteditor.MarkerAnnotationPreferences;
 import org.eclipse.ui.texteditor.SourceViewerDecorationSupport;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+import org.zhjh.galaxykit.GALPlugin;
 import org.zhjh.galaxykit.options.GALPreferences;
 import org.zhjh.galaxykit.options.IGALPreferencesConstants;
 
@@ -24,6 +28,7 @@ public class GALEditor extends TextEditor {
 
 	private GALSharedParser parser;
 	private GALOutlinePage outlinePage;
+	private boolean disableOutlinePage;
 
 	public GALEditor() {
 		super();
@@ -57,18 +62,27 @@ public class GALEditor extends TextEditor {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	protected void configureSourceViewerDecorationSupport(
 			SourceViewerDecorationSupport support) {
 		super.configureSourceViewerDecorationSupport(support);
+
+		MarkerAnnotationPreferences prefs = new MarkerAnnotationPreferences();
+		MarkerAnnotationPreferences.initializeDefaultValues(GALPlugin.getDefault().getPreferenceStore());
+		Iterator<Object> itor = prefs.getAnnotationPreferences().iterator();
+		while (itor.hasNext()) {
+			support.setAnnotationPreference((AnnotationPreference) itor.next());
+		}
+		support.install(GALPlugin.getDefault().getPreferenceStore());
 	}
 
 	public void update(IDocument doc) {
 		try {
+			disableOutlinePage = false;
 			parser.parse(doc);
 		} catch (RecognitionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			// TODO disable outlinePage!
+			disableOutlinePage = true;
 		}
 		Display.getDefault().asyncExec(new Runnable() {
 
@@ -96,7 +110,11 @@ public class GALEditor extends TextEditor {
 	}
 
 	private void updateOutlinePage() {
-		outlinePage.setInput(parser.getAST());
+		if (disableOutlinePage) {
+			outlinePage.setInput(null);
+		} else {
+			outlinePage.setInput(parser.getAST());
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -110,15 +128,23 @@ public class GALEditor extends TextEditor {
 				model.removeAnnotation(annotation);
 			}
 		}
-		for (RecognitionException re : parser.getErrors()) {
-			GALErrorAnnotation anno = new GALErrorAnnotation(
-					IGALPreferencesConstants.ANNOTATION_TYPE_ERROR, re
-							.getMessage());
-			final CommonToken token = (CommonToken) re.token;
-			Position pos = new Position(token.getStartIndex(), token
-					.getStopIndex()
-					- token.getStartIndex() + 1);
-			model.addAnnotation(anno, pos);
+		List<RecognitionException> errors = parser.getErrors();
+		if (errors != null) {
+			for (RecognitionException re : errors) {
+				GALErrorAnnotation anno = new GALErrorAnnotation(
+						IGALPreferencesConstants.ANNOTATION_TYPE_ERROR, false, re
+								.getMessage());
+				Position pos = null;
+				if (re.token == null) {
+					pos = new Position(re.index, 1);
+				} else {
+					final CommonToken token = (CommonToken) re.token;
+					pos = new Position(token.getStartIndex(), token
+							.getStopIndex()
+							- token.getStartIndex() + 1);
+				}
+				model.addAnnotation(anno, pos);
+			}
 		}
 	}
 
