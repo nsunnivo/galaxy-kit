@@ -84,7 +84,7 @@ statement
   | empty_statement
   | expression_statement
   ;
-if_statement : IF '('! expression ')' block;
+if_statement : IF '('! expression ')' block (ELSE block)?;
 while_statement : WHILE '('! expression ')' block;
 break_statement : BREAK ';';
 continue_statement : CONTINUE ';'!;
