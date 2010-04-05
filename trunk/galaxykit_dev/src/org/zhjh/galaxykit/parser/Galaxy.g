@@ -9,7 +9,6 @@ tokens {
   PLUS = '+';
   MINUS = '-';
   FUNCTION;
-  
 }
 
 @header {
