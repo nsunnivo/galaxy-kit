@@ -80,7 +80,7 @@ statement
   | break_statement
   | continue_statement
   | return_statement
-  | (left_hand_side_expression '=') => assignment_statement
+  | (left_hand_side_expression assignment_operator) => assignment_statement
   | empty_statement
   | expression_statement
   ;
@@ -89,8 +89,8 @@ while_statement : WHILE '('! expression ')' block;
 break_statement : BREAK ';';
 continue_statement : CONTINUE ';'!;
 return_statement : RETURN expression? ';'!;
-assignment_statement : left_hand_side_expression (
-    '='|'+='|'-='|'*='|'/='|'%='|'&='|'|='|'^='|'&&='|'||=') expression ';';
+assignment_statement : left_hand_side_expression assignment_operator expression ';';
+assignment_operator : '='|'+='|'-='|'*='|'/='|'%='|'&='|'|='|'^='|'&&='|'||=';
 empty_statement : ';';
 expression_statement : expression ';';
 
