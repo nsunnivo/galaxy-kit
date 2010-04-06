@@ -75,6 +75,7 @@ program :
 
 declaration :
     include_declaration!
+    | struct_declaration!
     | variable_declaration!
     | constant_declaration!
     | native_declaration
@@ -84,7 +85,12 @@ declaration :
 include_declaration :
     INCLUDE STRING
     ;
-
+struct_declaration
+    : STRUCT IDENTIFIER '{' field_declaration* '}' ';'
+    ;
+field_declaration
+    : type IDENTIFIER ';'
+    ;
 variable_declaration :
     type IDENTIFIER ( '=' expression )? ';'
     ;
