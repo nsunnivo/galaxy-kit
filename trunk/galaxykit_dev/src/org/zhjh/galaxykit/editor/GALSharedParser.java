@@ -65,5 +65,10 @@ public class GALSharedParser {
 	public List<RecognitionException> getErrors() {
 		return errors;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Token> getTokens(int start, int stop){
+		return tokenStream.getTokens(start, stop);
+	}
 
 }
