@@ -94,7 +94,9 @@ declaration
     ;
 
 include_declaration
-    : ^(INCLUDE STRING)
+    : INCLUDE STRING
+        ->
+        ^(INCLUDE STRING)
     ;
 struct_declaration
     : STRUCT IDENTIFIER '{' field_declaration* '}' ';'
