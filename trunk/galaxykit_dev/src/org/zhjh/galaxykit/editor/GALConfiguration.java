@@ -2,6 +2,13 @@ package org.zhjh.galaxykit.editor;
 
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
+import org.eclipse.jface.text.ITextViewer;
+import org.eclipse.jface.text.contentassist.ContentAssistant;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
+import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
+import org.eclipse.jface.text.contentassist.IContentAssistant;
+import org.eclipse.jface.text.contentassist.IContextInformation;
+import org.eclipse.jface.text.contentassist.IContextInformationValidator;
 import org.eclipse.jface.text.presentation.IPresentationReconciler;
 import org.eclipse.jface.text.presentation.PresentationReconciler;
 import org.eclipse.jface.text.reconciler.DirtyRegion;
@@ -59,4 +66,52 @@ public class GALConfiguration extends TextSourceViewerConfiguration {
 		}, false);
 	}
 
+	@Override
+	public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
+		ContentAssistant contentAssistant = new ContentAssistant();
+		contentAssistant.setContentAssistProcessor(new GALContentAssistantProcessor(),
+				IDocument.DEFAULT_CONTENT_TYPE);
+		return contentAssistant;
+	}
+	public class GALContentAssistantProcessor implements IContentAssistProcessor  {
+
+		@Override
+		public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer,
+				int offset) {
+			
+			return null;
+		}
+
+		@Override
+		public IContextInformation[] computeContextInformation(ITextViewer viewer,
+				int offset) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public char[] getCompletionProposalAutoActivationCharacters() {
+			return new char[] {
+		      ' ' };
+		}
+
+		@Override
+		public char[] getContextInformationAutoActivationCharacters() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public IContextInformationValidator getContextInformationValidator() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public String getErrorMessage() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+	}
 }
