@@ -149,7 +149,7 @@ public class GALPreferences extends AbstractPreferenceInitializer implements
 		return ret;
 	}
 	
-	private Map<String, Tree> getGalaxyNative(){
+	public Map<String, Tree> getGalaxyNative(){
 		return galaxyNative;
 	}
 }
