@@ -95,9 +95,10 @@ public class GALConfiguration extends TextSourceViewerConfiguration {
 			String leftText = findIdentifierLeftPart(viewer.getDocument(), offset);
 			
 			for (String name : galaxyNative.keySet()) {
-				if (name.startsWith(leftText)) {
+				if (leftText == null || name.startsWith(leftText)) {
 					CompletionProposal proposal = new CompletionProposal(
-							name, range.x, range.y, name.length());
+							name, range.x - leftText.length(), range.y + leftText.length(), 
+							name.length());
 					proposals.add(proposal);
 				}
 			}
@@ -108,11 +109,14 @@ public class GALConfiguration extends TextSourceViewerConfiguration {
 		
 		private String findIdentifierLeftPart(IDocument doc, int offset){
 			try {
-				int i = 0;
+				int i = 1;
 				while (isGalaxyIdentifierPart(doc.getChar(offset - i))){
 					i ++;
 				}
 				if (isGalaxyIdentifierStart(doc.getChar(offset - i))){
+					return doc.get(offset - i, i);
+				} else if (i > 1) {
+					i --;
 					return doc.get(offset - i, i);
 				}
 			} catch (BadLocationException e) {
