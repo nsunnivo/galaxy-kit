@@ -83,8 +83,4 @@ public class GALSharedParser {
 		return errorList;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public List<Token> getTokensByOffset(int start, int stop){
-		return tokenStream.getTokens(start, stop);
-	}
 }
