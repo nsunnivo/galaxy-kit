@@ -1,9 +1,11 @@
 package org.zhjh.galaxykit.editor;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.ANTLRReaderStream;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.CommonTokenStream;
@@ -28,11 +30,18 @@ public class GALSharedParser {
 		errorList = new ArrayList<RecognitionException>();
 	}
 
-	public void parse(IDocument doc) {
-		DocumentReader reader = new DocumentReader(doc);
-		CharStream input;
+	public void parse(InputStream stream) {
 		try {
-			input = new ANTLRReaderStream(reader);
+			CharStream input = new ANTLRInputStream(stream);
+			parse(input);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void parse(CharStream input){
+		try {
 			GalaxyLexer lexer = new GalaxyLexer(input);
 			tokenStream.setTokenSource(lexer);
 			lexer.clearErrors();
@@ -45,10 +54,18 @@ public class GALSharedParser {
 			if (parser.getErrors() != null) {
 				errorList.addAll(parser.getErrors());
 			}
-		} catch (IOException e) {
+		} catch (RecognitionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (RecognitionException e) {
+		}
+	}
+	
+	public void parse(IDocument doc) {
+		try {
+			DocumentReader reader = new DocumentReader(doc);
+			CharStream input = new ANTLRReaderStream(reader);
+			parse(input);
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
