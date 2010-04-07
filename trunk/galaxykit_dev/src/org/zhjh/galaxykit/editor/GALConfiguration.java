@@ -95,7 +95,11 @@ public class GALConfiguration extends TextSourceViewerConfiguration {
 			String leftText = findIdentifierLeftPart(viewer.getDocument(), offset);
 			
 			for (String name : galaxyNative.keySet()) {
-				if (leftText == null || name.startsWith(leftText)) {
+				if (leftText == null) {
+					CompletionProposal proposal = new CompletionProposal(
+							name, range.x, range.y, name.length());
+					proposals.add(proposal);
+				} else if (name.startsWith(leftText)){
 					CompletionProposal proposal = new CompletionProposal(
 							name, range.x - leftText.length(), range.y + leftText.length(), 
 							name.length());
