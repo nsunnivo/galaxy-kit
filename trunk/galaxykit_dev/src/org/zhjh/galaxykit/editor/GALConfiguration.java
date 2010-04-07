@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.antlr.runtime.Token;
 import org.antlr.runtime.tree.Tree;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
@@ -28,7 +27,6 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.editors.text.TextSourceViewerConfiguration;
 import org.zhjh.galaxykit.options.GALPreferences;
-import org.zhjh.galaxykit.parser.GalaxyParser;
 
 public class GALConfiguration extends TextSourceViewerConfiguration {
 
