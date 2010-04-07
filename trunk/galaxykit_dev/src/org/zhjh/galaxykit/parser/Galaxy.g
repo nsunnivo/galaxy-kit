@@ -14,6 +14,12 @@ tokens {
     VARIABLE;
     BLOCK;
     PARAMETERS;
+    EXPRESSION;
+    OROR = '||';
+    ANDAND = '&&';
+    OR = '|';
+    AND = '&';
+    XOR = '^';
 }
 
 @header {
@@ -103,23 +109,23 @@ field_declaration
 variable_declaration
     : type IDENTIFIER ( '=' expression )? ';'
         ->
-        ^(VARIABLE ^(TYPED_ID type IDENTIFIER) expression)
+        ^(VARIABLE ^(TYPED_ID type IDENTIFIER))
     ;
 
 constant_declaration
     : CONST type IDENTIFIER ( '=' expression )? ';'
         ->
-        ^(CONST ^(TYPED_ID type IDENTIFIER) expression)
+        ^(CONST ^(TYPED_ID type IDENTIFIER))
     ;
 
 native_declaration
-    : NATIVE result_type IDENTIFIER '(' parameter_list? ')' ';'
+    : NATIVE result_type IDENTIFIER '(' parameter_list ')' ';'
         ->
         ^(NATIVE IDENTIFIER result_type parameter_list)
     ;
 
 function_declaration
-    : result_type IDENTIFIER '(' parameter_list? ')' function_body
+    : result_type IDENTIFIER '(' parameter_list ')' function_body
         ->
         ^(FUNCTION IDENTIFIER result_type parameter_list)
     ;
@@ -136,7 +142,7 @@ type
 
 result_type
     : type
-    | VOID
+    | VOID^
     ;
 
 parameter
@@ -146,8 +152,8 @@ parameter
     ;
 
 parameter_list :
-    parameter ( ',' parameter )*
-        -> ^(PARAMETERS parameter+)
+    (parameter ( ',' parameter )*)?
+        -> ^(PARAMETERS parameter*)
     ;
 
 block :
@@ -211,20 +217,21 @@ expression_statement :
     expression ';'
     ;
 
-expression :
-    logicalOR_expression
+expression
+    : logicalOR_expression
     ;
 
-primary_expression :
-    STRING
+primary_expression
+    : STRING
     | INTEGER
     | FIXED
     | TRUE
     | FALSE
     | NULL
     | IDENTIFIER
-    | '('! expression ')'
+    | '(' expression ')'
     | call_expression
+    | '*' IDENTIFIER
     ;
 
 call_expression :
@@ -241,9 +248,8 @@ unary_expression :
     primary_expression
     ;
 
-argument_list :
-    expression ( ',' expression )*
-        -> expression+
+argument_list
+    : expression ( ',' expression )*
     ;
 
 member_expression :
@@ -297,35 +303,32 @@ relation_expression :
     )*
     ;
 
-equality_expression :
-    relation_expression
-    (
-        (
-            '=='
-            | '!='
-        )
-        relation_expression
-    )*
+equality_expression
+    : relation_expression ( equality_operator relation_expression )*
+    ;
+equality_operator
+    : '=='
+    | '!='
     ;
 
-bitwiseAND_expression :
-    equality_expression ( '&' equality_expression )*
+bitwiseAND_expression
+    : equality_expression ( '&' equality_expression )*
     ;
 
-bitwiseXOR_expression :
-    bitwiseAND_expression ( '^' bitwiseAND_expression )*
+bitwiseXOR_expression
+    : bitwiseAND_expression ( '^' bitwiseAND_expression )*
     ;
 
-bitwiseOR_expression :
-    bitwiseXOR_expression ( '|' bitwiseXOR_expression )*
+bitwiseOR_expression
+    : bitwiseXOR_expression ( '|' bitwiseXOR_expression )*
     ;
 
-logicalAND_expression :
-    bitwiseOR_expression ( '&&' bitwiseOR_expression )*
+logicalAND_expression
+    : bitwiseOR_expression ( '&&' bitwiseOR_expression )*
     ;
 
-logicalOR_expression :
-    logicalAND_expression ( '||' logicalAND_expression )*
+logicalOR_expression
+    : logicalAND_expression ( '||' logicalAND_expression )*
     ;
 
 WHITESPACE :
