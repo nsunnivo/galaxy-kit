@@ -51,7 +51,7 @@ public class GALPreferences extends AbstractPreferenceInitializer implements
 		Tree root = parser.getAST();
 		for (int i=0; i<root.getChildCount(); i++) {
 			Tree node = root.getChild(i);
-			if (node.getType() == GalaxyParser.FUNCTION) {
+			if (node.getType() == GalaxyParser.NATIVE) {
 				galaxyNative.put(node.getChild(0).getText(), node);
 			}
 		}
@@ -75,6 +75,8 @@ public class GALPreferences extends AbstractPreferenceInitializer implements
 				.getSystemColor(SWT.COLOR_DARK_GREEN));
 		setDefaultColor(IGALPreferencesConstants.TYPE_COLOR, display
 				.getSystemColor(SWT.COLOR_BLUE));
+		setDefaultColor(IGALPreferencesConstants.NATIVE_COLOR, display
+				.getSystemColor(SWT.COLOR_DARK_YELLOW));
 		setDefaultColor(IGALPreferencesConstants.CHARACTER_MATCHING_COLOR,
 				display.getSystemColor(SWT.COLOR_DARK_GREEN));
 	}
@@ -119,6 +121,11 @@ public class GALPreferences extends AbstractPreferenceInitializer implements
 		return new TextAttribute(color, null, SWT.BOLD);
 	}
 
+	public TextAttribute getNativeTextAttribute() {
+		final Color color = getColor(IGALPreferencesConstants.NATIVE_COLOR);
+		return new TextAttribute(color);
+	}
+	
 	public Color getCharacterMatchingColor() {
 		return getColor(IGALPreferencesConstants.CHARACTER_MATCHING_COLOR);
 	}
