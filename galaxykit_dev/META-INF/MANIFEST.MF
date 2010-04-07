@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: GalaxyKit
+Bundle-SymbolicName: galaxy-kit;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.zhjh.galaxykit.GALPlugin
+Bundle-Vendor: hackwaly@zhjh.org
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.editors,
+ org.eclipse.ui.views,
+ org.eclipse.jface.text
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: .,
+ antlr-runtime-3.2.jar
