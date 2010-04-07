@@ -127,13 +127,11 @@ native_declaration
 function_declaration
     : result_type IDENTIFIER '(' parameter_list ')' function_body
         ->
-        ^(FUNCTION IDENTIFIER result_type parameter_list)
+        ^(FUNCTION IDENTIFIER result_type parameter_list function_body)
     ;
 
 function_body
-    : '{' variable_declaration* statement* '}'
-        ->
-        ^(BLOCK statement* variable_declaration*)
+    : '{' variable_declaration!* statement!* '}'
     ;
 
 type

@@ -121,9 +121,10 @@ public class GALEditor extends TextEditor {
 				resetHighlightRange();
 			} else {
 				Tree node = (Tree)((IStructuredSelection)selection).getFirstElement();
-				CommonToken token = (CommonToken)parser.getToken(node.getTokenStartIndex());
-				int start = token.getStartIndex();
-				int length = token.getStopIndex() - token.getStartIndex() + 1;
+				CommonToken startToken = (CommonToken)parser.getToken(node.getTokenStartIndex());
+				int start = startToken.getStartIndex();
+				CommonToken stopToken = (CommonToken)parser.getToken(node.getTokenStopIndex());
+				int length = stopToken.getStopIndex() - startToken.getStartIndex() + 1;
 		        selectAndReveal(start, length);
 		        resetHighlightRange();
 		        setHighlightRange(start, length, true);
