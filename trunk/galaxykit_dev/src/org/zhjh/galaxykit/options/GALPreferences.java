@@ -1,5 +1,10 @@
 package org.zhjh.galaxykit.options;
 
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.antlr.runtime.tree.Tree;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceConverter;
@@ -14,11 +19,15 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.zhjh.galaxykit.GALPlugin;
+import org.zhjh.galaxykit.editor.GALSharedParser;
+import org.zhjh.galaxykit.parser.GalaxyParser;
 
 public class GALPreferences extends AbstractPreferenceInitializer implements
 		IGALPreferencesConstants {
 
 	private static GALPreferences fgInstance;
+	
+	private Map<String, Tree> galaxyNative;
 
 	public static GALPreferences getDefault() {
 		if (fgInstance == null) {
@@ -30,6 +39,22 @@ public class GALPreferences extends AbstractPreferenceInitializer implements
 	public GALPreferences() {
 		super();
 		fgInstance = this;
+		initializeGalaxyNative();
+	}
+	
+	private static final String GALAXY_NATIVE = "GalaxyNative.galaxy";
+	private void initializeGalaxyNative() {
+		GALSharedParser parser = new GALSharedParser();
+		InputStream input = GALPreferences.class.getResourceAsStream(GALAXY_NATIVE);
+		parser.parse(input);
+		galaxyNative = new HashMap<String, Tree>(16);
+		Tree root = parser.getAST();
+		for (int i=0; i<root.getChildCount(); i++) {
+			Tree node = root.getChild(i);
+			if (node.getType() == GalaxyParser.FUNCTION) {
+				galaxyNative.put(node.getChild(0).getText(), node);
+			}
+		}
 	}
 
 	protected void setDefaultColor(String key, Color color) {
@@ -102,9 +127,11 @@ public class GALPreferences extends AbstractPreferenceInitializer implements
 		prepareImageDescriptor(key);
 		return getImageRegistry().get(key);
 	}
+	
 	private ImageRegistry getImageRegistry(){
 		return GALPlugin.getDefault().getImageRegistry();
 	}
+	
 	private ImageDescriptor prepareImageDescriptor(String key){
 		final ImageRegistry registry = getImageRegistry();
 		ImageDescriptor ret = registry.getDescriptor(key);
@@ -120,5 +147,9 @@ public class GALPreferences extends AbstractPreferenceInitializer implements
 		}
 		registry.put(key, ret);
 		return ret;
+	}
+	
+	private Map<String, Tree> getGalaxyNative(){
+		return galaxyNative;
 	}
 }
