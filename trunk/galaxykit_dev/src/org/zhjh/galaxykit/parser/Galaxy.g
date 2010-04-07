@@ -9,6 +9,11 @@ tokens {
     PLUS  = '+';
     MINUS = '-';
     FUNCTION;
+    FIELD;
+    TYPED_ID;
+    VARIABLE;
+    BLOCK;
+    PARAMETERS;
 }
 
 @header {
@@ -69,66 +74,80 @@ public void clearErrors() {
 package org.zhjh.galaxykit.parser;
 }
 
-program :
-    declaration+ EOF!
+program
+    : declaration+ EOF!
     ;
 
-declaration :
-    include_declaration!
-    | struct_declaration!
-    | variable_declaration!
-    | constant_declaration!
+declaration
+    : include_declaration
+    | struct_declaration
+    | variable_declaration
+    | constant_declaration
     | native_declaration
     | function_declaration
     ;
 
-include_declaration :
-    INCLUDE STRING
+include_declaration
+    : ^(INCLUDE STRING)
     ;
 struct_declaration
     : STRUCT IDENTIFIER '{' field_declaration* '}' ';'
+        ->
+        ^(STRUCT IDENTIFIER field_declaration)
     ;
 field_declaration
     : type IDENTIFIER ';'
+        ->
+        ^(TYPED_ID type IDENTIFIER)
     ;
-variable_declaration :
-    type IDENTIFIER ( '=' expression )? ';'
-    ;
-
-constant_declaration :
-    CONST variable_declaration ';'
-    ;
-
-native_declaration :
-    NATIVE result_type IDENTIFIER '(' parameter_list? ')' ';'
-        -> IDENTIFIER
+variable_declaration
+    : type IDENTIFIER ( '=' expression )? ';'
+        ->
+        ^(VARIABLE ^(TYPED_ID type IDENTIFIER) expression)
     ;
 
-function_declaration :
-    result_type IDENTIFIER '(' parameter_list? ')' function_body
-        -> IDENTIFIER
+constant_declaration
+    : CONST type IDENTIFIER ( '=' expression )? ';'
+        ->
+        ^(CONST ^(TYPED_ID type IDENTIFIER) expression)
     ;
 
-function_body :
-    '{' variable_declaration* statement* '}'
+native_declaration
+    : NATIVE result_type IDENTIFIER '(' parameter_list? ')' ';'
+        ->
+        ^(NATIVE IDENTIFIER result_type parameter_list)
     ;
 
-type :
-    IDENTIFIER
+function_declaration
+    : result_type IDENTIFIER '(' parameter_list? ')' function_body
+        ->
+        ^(FUNCTION IDENTIFIER result_type parameter_list)
     ;
 
-result_type :
-    type
+function_body
+    : '{' variable_declaration* statement* '}'
+        ->
+        ^(BLOCK statement* variable_declaration*)
+    ;
+
+type
+    : IDENTIFIER^
+    ;
+
+result_type
+    : type
     | VOID
     ;
 
-parameter :
-    type IDENTIFIER
+parameter
+    : type IDENTIFIER
+        ->
+        ^(TYPED_ID type IDENTIFIER)
     ;
 
 parameter_list :
     parameter ( ',' parameter )*
-        -> parameter+
+        -> ^(PARAMETERS parameter+)
     ;
 
 block :
