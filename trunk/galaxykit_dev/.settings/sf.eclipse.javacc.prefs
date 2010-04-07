@@ -1,0 +1,8 @@
+#Wed Mar 31 09:52:19 CST 2010
+CLEAR_CONSOLE=false
+JJ_NATURE=true
+JTB_OPTIONS=-p\=org.zhjh.galaxykit
+RUNTIME_JJJAR=D\:/Develop/eclipse/plugins/sf.eclipse.javacc_1.5.21/javacc.jar
+RUNTIME_JTBJAR=D\:/Develop/eclipse/plugins/sf.eclipse.javacc_1.5.21/jtb-1.4.2.jar
+SUPPRESS_WARNINGS=false
+eclipse.preferences.version=1
