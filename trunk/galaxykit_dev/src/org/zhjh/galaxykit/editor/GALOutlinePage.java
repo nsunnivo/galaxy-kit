@@ -1,5 +1,7 @@
 package org.zhjh.galaxykit.editor;
 
+import java.util.ArrayList;
+
 import org.antlr.runtime.tree.Tree;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -10,6 +12,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
+import org.zhjh.galaxykit.parser.GalaxyParser;
 
 public class GALOutlinePage extends ContentOutlinePage {
 
@@ -80,17 +83,19 @@ public class GALOutlinePage extends ContentOutlinePage {
 
 		@Override
 		public Object[] getChildren(Object parentElement) {
-			Object[] children = null;
+			ArrayList<Tree> children = new ArrayList<Tree>();
 			if (parentElement instanceof Tree) {
-				final Tree node = (Tree) parentElement;
-				if (node.getChildCount() > 0) {
-					children = new Tree[node.getChildCount()];
-					for (int i = 0; i < node.getChildCount(); i++) {
-						children[i] = node.getChild(i);
+				final Tree parent = (Tree) parentElement;
+				if (parent.getChildCount() > 0) {
+					for (int i = 0; i < parent.getChildCount(); i++) {
+						final Tree node = parent.getChild(i);
+						if (node.getType() == GalaxyParser.FUNCTION) {
+							children.add(node);
+						}
 					}
 				}
 			}
-			return children;
+			return children.toArray();
 		}
 
 		@Override
@@ -125,7 +130,12 @@ public class GALOutlinePage extends ContentOutlinePage {
 		@Override
 		public String getText(Object element) {
 			if (element instanceof Tree) {
-				return ((Tree) element).getText();
+				final Tree node = (Tree)element;
+				if (node.getType() == GalaxyParser.FUNCTION) {
+					String name = node.getChild(0).getText();
+					String type = node.getChild(1).getText();
+					return type.equals("void") ? name : name + " : " + type;
+				}
 			}
 			return null;
 		}
