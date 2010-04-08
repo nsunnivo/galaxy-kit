@@ -160,8 +160,8 @@ block :
     '{' statement* '}'
     ;
 
-statement :
-    if_statement
+statement
+    : if_statement
     | while_statement
     | break_statement
     | continue_statement
@@ -171,12 +171,12 @@ statement :
     | expression_statement
     ;
 
-if_statement :
-    IF '('! expression ')' block ( ELSE block )?
+if_statement
+    : IF '(' expression ')' block ( ELSE (if_statement | block) )?
     ;
 
 while_statement :
-    WHILE '('! expression ')' block
+    WHILE '(' expression ')' block
     ;
 
 break_statement :
@@ -184,11 +184,11 @@ break_statement :
     ;
 
 continue_statement :
-    CONTINUE ';'!
+    CONTINUE ';'
     ;
 
 return_statement :
-    RETURN expression? ';'!
+    RETURN expression? ';'
     ;
 
 assignment_statement :
