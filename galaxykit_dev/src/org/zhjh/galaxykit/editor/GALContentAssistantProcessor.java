@@ -27,20 +27,47 @@ public class GALContentAssistantProcessor implements IContentAssistProcessor {
 		Point range = viewer.getSelectedRange();
 		String leftText = findIdentifierLeftPart(viewer.getDocument(), offset);
 		for (String name : galaxyNative.keySet()) {
+			String displayText = getDisplayText(galaxyNative.get(name));
 			if (leftText == null) {
 				CompletionProposal proposal = new CompletionProposal(name,
-						range.x, range.y, name.length());
+						range.x, range.y, name.length(), null, displayText,
+						null, null);
 				proposals.add(proposal);
 			} else if (name.startsWith(leftText)) {
 				CompletionProposal proposal = new CompletionProposal(name,
 						range.x - leftText.length(), range.y
-								+ leftText.length(), name.length());
+								+ leftText.length(), name.length(), null,
+						displayText, null, null);
 				proposals.add(proposal);
 			}
 		}
 		ICompletionProposal[] ret = new ICompletionProposal[proposals.size()];
 		ret = proposals.toArray(ret);
 		return ret;
+	}
+	
+	private String getDisplayText(Tree node){
+		String name = node.getChild(0).getText();
+		String returnType = node.getChild(1).getText();
+		StringBuilder buffer = new StringBuilder();
+		buffer.append(name);
+		buffer.append("(");
+		Tree parameters = node.getChild(2);
+		for (int i=0; i<parameters.getChildCount(); i++) {
+			Tree parameter = parameters.getChild(i);
+			buffer.append(parameter.getChild(0).getText());
+			buffer.append(" ");
+			buffer.append(parameter.getChild(1).getText());
+			if (i != parameters.getChildCount() - 1) {
+				buffer.append(", ");
+			}
+		}
+		buffer.append(")");
+		if (!returnType.equals("void")) {
+			buffer.append(" : ");
+			buffer.append(returnType);
+		}
+		return buffer.toString();
 	}
 
 	private String findIdentifierLeftPart(IDocument doc, int offset) {
