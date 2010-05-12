@@ -137,7 +137,7 @@ function_body
     ;
 
 type
-    : IDENTIFIER^
+    : IDENTIFIER^ ('[' INTEGER ']')*
     ;
 
 result_type
@@ -228,7 +228,7 @@ primary_expression
     | TRUE
     | FALSE
     | NULL
-    | IDENTIFIER
+    | IDENTIFIER ('[' expression ']')*
     | '(' expression ')'
     | call_expression
     | '*' IDENTIFIER
